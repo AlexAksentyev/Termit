@@ -1,4 +1,4 @@
-CodeRW
+Termit
 ======
 
 MEPhI
