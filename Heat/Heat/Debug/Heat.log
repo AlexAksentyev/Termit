@@ -1,0 +1,22 @@
+﻿Build started 24.11.2012 19:35:43.
+     1>Project "C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Heat.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IC:\Users\VAIO\Desktop\CnrDev\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt FEMCode.cpp FEMObjects.cpp MatrixIntegration.cpp
+         FEMCode.cpp
+         Generating Code...
+         Skipping... (no relevant changes detected)
+         MatrixIntegration.cpp
+         FEMObjects.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\VAIO\Desktop\CnrDev\boost_1_52_0\boost_1_52_0\bin.v2\libs\thread\build\msvc-11.0\debug\threading-multi" "boost_thread-vc110-mt-gd-1_52.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.lib" /MACHINE:X86 Debug\Heat.res
+         Debug\FEMCode.obj
+         Debug\FEMObjects.obj
+         Debug\Heat.obj
+         Debug\MatrixIntegration.obj
+         Debug\stdafx.obj
+         Heat.vcxproj -> C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.exe
+     1>Done Building Project "C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Heat.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:12.15
