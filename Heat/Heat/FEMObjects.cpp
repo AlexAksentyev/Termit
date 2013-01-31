@@ -32,13 +32,13 @@ std::vector<std::vector<coordinate>> elementFEM::Shape::NC;
 elementFEM::elementFEM(elementMesh &one, index number)
 {
 	this->iGlob = number;
-	this->Matrix.host = elementFEM_ptr(this); this->form.host = elementFEM_ptr(this);
-	this->Stuff = new material(one.Stuff); this->Node = std::vector<node_ptr>(one.Node);
+	this->Matrix.host = this; this->form.host = this;
+	this->Stuff = new material(one.Stuff); this->Node = node_ptr_vector(one.Node);
 
 	// there's also some facet-related info in a mesh element which translates into facetFem info in an elementFEM element
 
-	BOOST_FOREACH(node_ptr n,  this->Node)
-		n->element.push_back(elementFEM_ptr(this));	
+	BOOST_FOREACH(node n,  this->Node)
+		n.element.push_back(this);	
 
 	if (this->NaturalCoordinates_Set != true)
 		this->form.set_form_functions(); // doesn't really set the functions themselves, but rather initializes the necessities	
@@ -92,7 +92,7 @@ matrix elementFEM::Shape::Jacobian(coordinate u,coordinate v,coordinate g)
 		for (index col = 0; col < ff_num; col++)
 		{
 			gradn_f_mx(row,col) = gradn_fs[col][row];
-			XYZ(col,row) += this->host->Node[col]->x[row];
+			XYZ(col,row) += this->host->Node[col].x[row];
 		}	
 
 	matrix J(3,3);	
@@ -224,18 +224,20 @@ vector elementFEM::Matrix_Container::calculate_Q()
 	return Q;
 }
 
-void elementFEM::facetFEM::flatten()
+//////////////////////// FACET_FEM //////////////////////////////
+
+void facetFEM::flatten()
 {
 }
 
-mx_elem elementFEM::facetFEM::function_i(coordinate u,coordinate v,index inode)
+mx_elem facetFEM::function_i(coordinate u,coordinate v,index inode)
 {
 	mx_elem f = 1/4 * (1 + u*elementFEM::Shape::NC[0][inode])*(1 + v*elementFEM::Shape::NC[1][inode]);
 	
 	return f;
 }
 
-vector elementFEM::facetFEM::gradn_function_i(coordinate u,coordinate v,index inode)
+vector facetFEM::gradn_function_i(coordinate u,coordinate v,index inode)
 {
 	coordinate ui = elementFEM::Shape::NC[0][inode]; coordinate vi = elementFEM::Shape::NC[1][inode];
 	vector gradn(2); 
@@ -243,7 +245,7 @@ vector elementFEM::facetFEM::gradn_function_i(coordinate u,coordinate v,index in
 	return 1/4 * gradn;
 }
 
-matrix elementFEM::facetFEM::Jacobian(coordinate u,coordinate v)
+matrix facetFEM::Jacobian(coordinate u,coordinate v)
 {
 	size_t nds_on_fct = this->Node.size();
 	std::vector<vector> gradn_fs(nds_on_fct);	
@@ -255,7 +257,7 @@ matrix elementFEM::facetFEM::Jacobian(coordinate u,coordinate v)
 		for (index col = 0; col < nds_on_fct; col++)
 		{
 			gradn_f_mx(row,col) = gradn_fs[col][row];
-			XY(col,row) += this->Node[col]->x[row];
+			XY(col,row) += this->Node[col].x[row];
 		}	
 
 	matrix J(2,2);	
@@ -264,7 +266,7 @@ matrix elementFEM::facetFEM::Jacobian(coordinate u,coordinate v)
 	return J;
 }
 
-sym_matrix elementFEM::facetFEM::calc_K_Neu()
+sym_matrix facetFEM::calc_K_Neu()
 {
 	struct local : integrable<facetFEM>
 	{			
@@ -300,7 +302,7 @@ sym_matrix elementFEM::facetFEM::calc_K_Neu()
 	return K;
 }
 
-vector elementFEM::facetFEM::calc_Q_Neu()
+vector facetFEM::calc_Q_Neu()
 {
 	struct local : integrable<facetFEM>
 	{	

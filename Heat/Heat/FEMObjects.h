@@ -5,8 +5,9 @@
 #include <boost\numeric\ublas\matrix.hpp>
 #include <boost\numeric\ublas\symmetric.hpp>
 #include <boost\foreach.hpp>
-#include <boost\enable_shared_from_this.hpp>
-#include <boost\shared_ptr.hpp>
+#include <boost\ptr_container\ptr_vector.hpp>
+
+
 
 typedef	double			coordinate;
 typedef double			temperature;
@@ -18,8 +19,10 @@ typedef boost::numeric::ublas::symmetric_matrix<mx_elem>	sym_matrix;
 typedef boost::numeric::ublas::vector<mx_elem>				vector;
 
 
-
 class elementFEM;
+
+typedef elementFEM*									elementFEM_ptr;
+typedef boost::ptr_vector<elementFEM>				elementFEM_ptr_vector;
 
 class node
 {	
@@ -31,16 +34,19 @@ public:
 	~node();
 };
 
-typedef boost::shared_ptr<node>								node_ptr;
+typedef node*										node_ptr;
+typedef boost::ptr_vector<node>						node_ptr_vector;
 
 class material;
+
+typedef material*									material_ptr;
 
 // what is passed into my code to be attributed with FEM parameters like indexes
 class elementMesh
 {
 public:
 	material_ptr Stuff;	// a pointer to the object containing the material properties of an element
-	std::vector<node_ptr>	Node;	// an array of the nodes of an element, the position of a node in the array is the node's local index in the element
+	node_ptr_vector	Node;	// an array of the nodes of an element, the position of a node in the array is the node's local index in the element
 
 	// some facet info will be here, for now assume in includes not only geometrical but also physical parameters such as ambient temperature
 
@@ -48,6 +54,11 @@ public:
 	~elementMesh();
 
 };
+
+struct facetFEM;
+
+typedef facetFEM*									facetFEM_ptr;
+typedef boost::ptr_vector<facetFEM>					facetFEM_ptr_vector;
 
 class elementFEM : public elementMesh // adds FEM - required properties to elementMesh
 {
@@ -87,9 +98,16 @@ public:
 	
 	Shape form;
 
-	struct facetFEM
+	facetFEM_ptr_vector Facet; // initialized in the elementFEM constructor (should be, not yet)
+
+	elementFEM(elementMesh&, index);
+	~elementFEM();	
+	
+};
+
+struct facetFEM
 {
-	std::vector<node_ptr> Node; // already flat	
+	node_ptr_vector Node; // already flat	
 	sym_matrix K_Neu;
 	vector Q_Neu;
 	
@@ -109,16 +127,6 @@ private:
 
 };
 
-	std::vector<facetFEM_ptr> Facet; // initialized in the elementFEM constructor (should be, not yet)
-
-	elementFEM(elementMesh&, index);
-	~elementFEM();	
-	
-};
-
-typedef boost::shared_ptr<elementFEM>						elementFEM_ptr;
-typedef boost::shared_ptr<elementFEM::facetFEM>				facetFEM_ptr;
-
 class material
 {
 public:
@@ -132,8 +140,6 @@ public:
 private:
 
 };
-
-typedef boost::shared_ptr<material>							material_ptr;
 
 
 #endif

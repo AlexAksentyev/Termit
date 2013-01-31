@@ -9,15 +9,15 @@ void FEMCode(std::vector<elementMesh> elements)
 	// the following sections should probably be put into separate functions
 
 	// FEM mesh and boundary generation
-	std::vector<elementFEM_ptr> HexElement(elements.size());
-	std::vector<facetFEM_ptr> Boundary(6*HexElement.size());
+	elementFEM_ptr_vector	HexElement(elements.size());
+	facetFEM_ptr_vector		Boundary(6*HexElement.size());
 	compose_FEM_mesh(elements,HexElement,Boundary);
-	elements.clear();
+	elements.~vector();
 	
 	// ODE system obtaining		
 	GlobalMatrices gm(1000); // the actual number of nodes put here instead of 1000, finding ways to avoid preallocating it is preferable	
-	BOOST_FOREACH(elementFEM_ptr element, HexElement)			
-		calc_element_matrices(element, gm);
+	BOOST_FOREACH(elementFEM element, HexElement)				
+		calc_element_matrices(&element, gm);
 
 	// the imposition of Neumann boundary conditions
 	impose_Neumann(Boundary, gm);
@@ -26,7 +26,7 @@ void FEMCode(std::vector<elementMesh> elements)
 }
 
 
-void compose_FEM_mesh(std::vector<elementMesh> &elements, std::vector<elementFEM_ptr> &HexElements, std::vector<facetFEM_ptr> &Boundaries)
+void compose_FEM_mesh(std::vector<elementMesh> &elements, elementFEM_ptr_vector &HexElements, facetFEM_ptr_vector &Boundaries)
 {	
 	elementFEM::NaturalCoordinates_Set = false;
 	
@@ -34,15 +34,16 @@ void compose_FEM_mesh(std::vector<elementMesh> &elements, std::vector<elementFEM
 	BOOST_FOREACH(elementMesh elem, elements){	
 		elementFEM one = elementFEM(elem,cnt);
 		HexElements.push_back(&one);
-		BOOST_FOREACH(elementFEM::facetFEM* f, one.Facet){
-			index nind = 0; size_t NofFacetNds = f->Node.size(); size_t NofElts = 1;			
+		BOOST_FOREACH(facetFEM f, Boundaries)
+		{
+			index nind = 0; size_t NofFacetNds = f.Node.size(); size_t NofElts = 1;			
 			while((NofElts == 1) && (nind < NofFacetNds)){
-				NofElts = f->Node.at(nind)->element.size(); // the number of elements that reference a node of a facet
+				NofElts = f.Node.at(nind).element.size(); // the number of elements that reference a node of a facet
 				nind++;
 			}
 
 			if(NofElts == 1) // if all nodes of the facet are referenced by only one element then so is the facet, and hence it's boundary
-				Boundaries.push_back(f);		
+				Boundaries.push_back(&f);		
 		}
 		cnt++; // **, for now it's just increment
 	}
@@ -54,7 +55,7 @@ void calc_element_matrices(elementFEM_ptr element, GlobalMatrices &Global)
 	size_t size = element->Node.size();
 	std::vector<index> sctr = std::vector<index>(size);	// for assembling the current matrices into the global ones	
 	for(index n = 0; n < size; n++)
-		sctr[n] = element->Node.at(n)->iGlob;
+		sctr[n] = element->Node.at(n).iGlob;
 
 	element->Matrix.C = element->Matrix.calculate_C(); // save the matrices inside the element for no reason
 	element->Matrix.K = element->Matrix.calculate_K();
@@ -71,24 +72,24 @@ void calc_element_matrices(elementFEM_ptr element, GlobalMatrices &Global)
 	}
 }
 
-void impose_Neumann(std::vector<facetFEM_ptr> &NeuBdry, GlobalMatrices &Global){
+void impose_Neumann(facetFEM_ptr_vector &NeuBdry, GlobalMatrices &Global){
 	// the matrices after the imposition are based upon the free ones **
 	Global.K_Neu = Global.K; Global.Q_Neu = Global.Q;
 	
-	BOOST_FOREACH(elementFEM::facetFEM* f, NeuBdry){
-		size_t size = f->Node.size();
+	BOOST_FOREACH(facetFEM f, NeuBdry){
+		size_t size = f.Node.size();
 		std::vector<index> sctr = std::vector<index>(size);	// for assembling the current matrices into the global ones		
 		for(index n = 0; n < size; n++)
-			sctr[n] = f->Node.at(n)->iGlob;
+			sctr[n] = f.Node.at(n).iGlob;
 
-		f->K_Neu = f->calc_K_Neu();
-		f->Q_Neu = f->calc_Q_Neu();
+		f.K_Neu = f.calc_K_Neu();
+		f.Q_Neu = f.calc_Q_Neu();
 
 		for (index row = 0; row < size; row++) // the assembling
 		{
-			Global.Q_Neu(sctr[row]) += f->Q_Neu(row);
+			Global.Q_Neu(sctr[row]) += f.Q_Neu(row);
 			for (index col = 0; col < size; col++)							
-				Global.K_Neu(sctr[row],sctr[col]) += f->K_Neu(row,col);		// with additional terms **			
+				Global.K_Neu(sctr[row],sctr[col]) += f.K_Neu(row,col);		// with additional terms **			
 		}
 
 	}
