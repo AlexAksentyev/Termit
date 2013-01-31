@@ -5,8 +5,11 @@
 #include <boost\numeric\ublas\matrix.hpp>
 #include <boost\numeric\ublas\symmetric.hpp>
 #include <boost\foreach.hpp>
+#include <boost\enable_shared_from_this.hpp>
+#include <boost\shared_ptr.hpp>
 
 typedef	double			coordinate;
+typedef double			temperature;
 typedef	std::size_t		index;
 typedef double			mx_elem;
 
@@ -15,15 +18,20 @@ typedef boost::numeric::ublas::symmetric_matrix<mx_elem>	sym_matrix;
 typedef boost::numeric::ublas::vector<mx_elem>				vector;
 
 
+
 class elementFEM;
 
 class node
 {	
 public:
 	coordinate x[3]; // for the present assume they're given explicitly, and not via the i,j,k indexes on the grid
-	index iLoc, iGlob; // an element's local and global indexes; may be set at elementMesh mesh generation
-	std::vector<elementFEM*> element;	// the elements a node belongs to
+	index iGlob; 
+	std::vector<elementFEM_ptr> element;	// the elements a node belongs to
+
+	~node();
 };
+
+typedef boost::shared_ptr<node>								node_ptr;
 
 class material;
 
@@ -31,28 +39,27 @@ class material;
 class elementMesh
 {
 public:
-	material *Stuff;	// a pointer to the object containing the material properties of an element
-	std::vector<node*>	Node;	// an array of the nodes of an element
+	material_ptr Stuff;	// a pointer to the object containing the material properties of an element
+	std::vector<node_ptr>	Node;	// an array of the nodes of an element, the position of a node in the array is the node's local index in the element
+
+	// some facet info will be here, for now assume in includes not only geometrical but also physical parameters such as ambient temperature
 
 	elementMesh();
 	~elementMesh();
 
-private:
-
 };
 
-class elementFEM : elementMesh // adds FEM - required properties to elementMesh
+class elementFEM : public elementMesh // adds FEM - required properties to elementMesh
 {
 public:
 	
-	index iGlob; // this one may already be in elementMesh; Or rather may not be required. 
-	// instead, might want to add some sort of boundary reference for the boundary conditions imposition
-	static bool NaturalCoordinates_Set; // to avoid multiple initialization of NC
-	
+	index iGlob; 
+	static bool NaturalCoordinates_Set; // to avoid multiple initialization of NC	
+
 	// these properties are ODE System - related, the local matrices to be scattered into the system. For now place them here
 	struct Matrix_Container
 	{
-		elementFEM *host;
+		elementFEM_ptr host;
 		sym_matrix C, K;		
 		vector Q;
 
@@ -62,14 +69,14 @@ public:
 		vector calculate_Q();
 	};
 
-	Matrix_Container Matrix; 					
-			
+	Matrix_Container Matrix; 
+
 	struct Shape
 	{	
 		// might want to change this one to boost::vector to remove boost\assign\std\vector in the cpp, gives the same functionality (by the looks of it)
 		// but doesn't require extra dependencies
 		static std::vector<std::vector<coordinate>> NC;	// natural coordinates of the element's nodes (3 coordinates, 8 nodes);	
-		elementFEM *host;
+		elementFEM_ptr host;
 
 		void set_form_functions(); // for now only sets NC; for other sorts of functions might add something else	
 		mx_elem	function_i(coordinate,coordinate,coordinate,index);	
@@ -80,11 +87,37 @@ public:
 	
 	Shape form;
 
-	elementFEM(elementMesh, int);
+	struct facetFEM
+{
+	std::vector<node_ptr> Node; // already flat	
+	sym_matrix K_Neu;
+	vector Q_Neu;
+	
+	temperature T_dir, T_amb;
+	double h_conv;
+	
+	sym_matrix calc_K_Neu();
+	vector calc_Q_Neu();	
+
+private:
+
+	void flatten(); // need it(?) for boundary condition imposition
+	
+	mx_elem function_i(coordinate,coordinate,index);
+	vector gradn_function_i(coordinate,coordinate,index); // gradient in natural coordinates. grad_xyz = Jacobian^-1 * gardn
+	matrix Jacobian(coordinate,coordinate); // 2D jacobian on the surface of an element
+
+};
+
+	std::vector<facetFEM_ptr> Facet; // initialized in the elementFEM constructor (should be, not yet)
+
+	elementFEM(elementMesh&, index);
 	~elementFEM();	
 	
 };
 
+typedef boost::shared_ptr<elementFEM>						elementFEM_ptr;
+typedef boost::shared_ptr<elementFEM::facetFEM>				facetFEM_ptr;
 
 class material
 {
@@ -93,34 +126,15 @@ public:
 	matrix Conduct; // thermal conductivity of material
 
 	material();
+	material(material_ptr);
 	~material();
 
 private:
 
 };
 
+typedef boost::shared_ptr<material>							material_ptr;
 
-struct facet
-{
-	std::vector<node> Node; // already flattened
-	sym_matrix K_Neu;
-	vector Q_Neu;
-
-	facet();
-	~facet();
-	
-	sym_matrix calc_K_Neu();
-	vector calc_Q_Neu();	
-
-private:
-
-	void flatten(); // need it for boundary condition imposition
-
-	mx_elem function_i(coordinate,coordinate,index);
-	vector gradn_function_i(coordinate,coordinate,index); // gradient in natural coordinates. grad_xyz = Jacobian^-1 * gardn
-	matrix Jacobian(coordinate,coordinate); // 2D jacobian on the surface of an element
-
-};
 
 #endif
 

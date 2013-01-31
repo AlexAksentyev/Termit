@@ -23,6 +23,5 @@ struct integrable
 
 mx_elem gaussian_tplquad(integrand, int_domain); 
 mx_elem gaussian_dblquad(integrand, int_domain);
-mx_elem det_inv(const matrix&, matrix&, bool);
-mx_elem det(const matrix&);
+mx_elem det_inv(const matrix&, matrix& inv = matrix(), bool calc_inv = false);
 int determinant_sign(const boost::numeric::ublas::permutation_matrix<std ::size_t>&);

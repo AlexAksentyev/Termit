@@ -53,7 +53,7 @@ mx_elem gaussian_dblquad(integrand f, int_domain X)
 	return area*sum;
 }
 
-mx_elem det_inv(const matrix & m, matrix & inverse,bool calc_inv)
+mx_elem det_inv(const matrix & m, matrix & inverse, bool calc_inv)
 {	
 	matrix A(m); // create a working copy of the input
 
@@ -80,26 +80,6 @@ mx_elem det_inv(const matrix & m, matrix & inverse,bool calc_inv)
 	}
 
     return det;
-}
-
-mx_elem det(const matrix & m)
-{
-	matrix A(m); // create a working copy of the input
-	using namespace boost::numeric::ublas;	
-	permutation_matrix<std ::size_t> pm(A.size1());
-	mx_elem det = 1.0;
-    if( lu_factorize(A,pm) )
-	{
-        det = 0.0;
-    } else 
-	{
-        for(index i = 0; i < A.size1(); i++)
-            det *= A(i,i); // multiply by elements on diagonal
-
-        det = det * determinant_sign( pm );
-    }
-
-	return det;
 }
 
 int determinant_sign(const boost::numeric::ublas::permutation_matrix<std ::size_t>& pm)

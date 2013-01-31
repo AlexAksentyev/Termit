@@ -1,22 +1,136 @@
-﻿Build started 24.11.2012 19:35:43.
+﻿Build started 31.01.2013 7:05:30.
      1>Project "C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Heat.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IC:\Users\VAIO\Desktop\CnrDev\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt FEMCode.cpp FEMObjects.cpp MatrixIntegration.cpp
-         FEMCode.cpp
-         Generating Code...
-         Skipping... (no relevant changes detected)
          MatrixIntegration.cpp
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(29): error C2065: 'elementFEM_ptr' : undeclared identifier
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(29): error C2923: 'std::vector' : 'elementFEM_ptr' is not a valid template type argument for parameter '_Ty'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(42): error C2146: syntax error : missing ';' before identifier 'Stuff'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(42): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(62): error C2146: syntax error : missing ';' before identifier 'host'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(62): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(79): error C2146: syntax error : missing ';' before identifier 'host'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(79): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(112): error C2065: 'facetFEM_ptr' : undeclared identifier
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(112): error C2923: 'std::vector' : 'facetFEM_ptr' is not a valid template type argument for parameter '_Ty'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(129): error C2460: 'material::material_ptr' : uses 'material', which is being defined
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(123) : see declaration of 'material'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\matrixintegration.cpp(91): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
          FEMObjects.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\VAIO\Desktop\CnrDev\boost_1_52_0\boost_1_52_0\bin.v2\libs\thread\build\msvc-11.0\debug\threading-multi" "boost_thread-vc110-mt-gd-1_52.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.lib" /MACHINE:X86 Debug\Heat.res
-         Debug\FEMCode.obj
-         Debug\FEMObjects.obj
-         Debug\Heat.obj
-         Debug\MatrixIntegration.obj
-         Debug\stdafx.obj
-         Heat.vcxproj -> C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.exe
-     1>Done Building Project "C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Heat.vcxproj" (Build target(s)).
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(29): error C2065: 'elementFEM_ptr' : undeclared identifier
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(29): error C2923: 'std::vector' : 'elementFEM_ptr' is not a valid template type argument for parameter '_Ty'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(42): error C2146: syntax error : missing ';' before identifier 'Stuff'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(42): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(62): error C2146: syntax error : missing ';' before identifier 'host'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(62): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(79): error C2146: syntax error : missing ';' before identifier 'host'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(79): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(112): error C2065: 'facetFEM_ptr' : undeclared identifier
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(112): error C2923: 'std::vector' : 'facetFEM_ptr' is not a valid template type argument for parameter '_Ty'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(129): error C2460: 'material::material_ptr' : uses 'material', which is being defined
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(123) : see declaration of 'material'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(35): error C2039: 'host' : is not a member of 'elementFEM::Matrix_Container'
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(61) : see declaration of 'elementFEM::Matrix_Container'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(35): error C2039: 'host' : is not a member of 'elementFEM::Shape'
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(75) : see declaration of 'elementFEM::Shape'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(36): error C2039: 'Stuff' : is not a member of 'elementFEM'
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(52) : see declaration of 'elementFEM'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(36): error C2039: 'Stuff' : is not a member of 'elementMesh'
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(40) : see declaration of 'elementMesh'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(41): error C2664: 'void std::vector<_Ty>::push_back(int &&)' : cannot convert parameter 1 from 'boost::shared_ptr<T>' to 'int &&'
+                 with
+                 [
+                     _Ty=int
+                 ]
+                 and
+                 [
+                     T=elementFEM
+                 ]
+                 Reason: cannot convert from 'boost::shared_ptr<T>' to 'int'
+                 with
+                 [
+                     T=elementFEM
+                 ]
+                 No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(95): error C2039: 'host' : is not a member of 'elementFEM::Shape'
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(75) : see declaration of 'elementFEM::Shape'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(95): error C2227: left of '->Node' must point to class/struct/union/generic type
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(95): error C2227: left of '->x' must point to class/struct/union/generic type
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(143): error C2039: 'host' : is not a member of 'elementFEM::Matrix_Container'
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(61) : see declaration of 'elementFEM::Matrix_Container'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(188): error C2039: 'host' : is not a member of 'elementFEM::Matrix_Container'
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(61) : see declaration of 'elementFEM::Matrix_Container'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(165): error C2039: 'Stuff' : is not a member of 'elementFEM'
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(52) : see declaration of 'elementFEM'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(165): error C2227: left of '->Conduct' must point to class/struct/union/generic type
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(220): error C2039: 'host' : is not a member of 'elementFEM::Matrix_Container'
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(61) : see declaration of 'elementFEM::Matrix_Container'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(342): error C2597: illegal reference to non-static member 'material::material_ptr'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.cpp(343): error C2448: 'material::{ctor}' : function-style initializer appears to be a function definition
+         FEMCode.cpp
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(29): error C2065: 'elementFEM_ptr' : undeclared identifier
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(29): error C2923: 'std::vector' : 'elementFEM_ptr' is not a valid template type argument for parameter '_Ty'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(42): error C2146: syntax error : missing ';' before identifier 'Stuff'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(42): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(62): error C2146: syntax error : missing ';' before identifier 'host'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(62): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(79): error C2146: syntax error : missing ';' before identifier 'host'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(79): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(112): error C2065: 'facetFEM_ptr' : undeclared identifier
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(112): error C2923: 'std::vector' : 'facetFEM_ptr' is not a valid template type argument for parameter '_Ty'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(129): error C2460: 'material::material_ptr' : uses 'material', which is being defined
+                 c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femobjects.h(123) : see declaration of 'material'
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femcode.cpp(36): error C2664: 'void std::vector<_Ty>::push_back(boost::shared_ptr<T> &&)' : cannot convert parameter 1 from 'elementFEM *' to 'boost::shared_ptr<T> &&'
+                 with
+                 [
+                     _Ty=elementFEM_ptr,
+                     T=elementFEM
+                 ]
+                 and
+                 [
+                     T=elementFEM
+                 ]
+                 Reason: cannot convert from 'elementFEM *' to 'boost::shared_ptr<T>'
+                 with
+                 [
+                     T=elementFEM
+                 ]
+                 Constructor for class 'boost::shared_ptr<T>' is declared 'explicit'
+                 with
+                 [
+                     T=elementFEM
+                 ]
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femcode.cpp(37): error C2440: 'initializing' : cannot convert from 'int' to 'elementFEM::facetFEM *'
+                 Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femcode.cpp(45): error C2664: 'void std::vector<_Ty>::push_back(boost::shared_ptr<T> &&)' : cannot convert parameter 1 from 'elementFEM::facetFEM *' to 'boost::shared_ptr<T> &&'
+                 with
+                 [
+                     _Ty=facetFEM_ptr,
+                     T=elementFEM::facetFEM
+                 ]
+                 and
+                 [
+                     T=elementFEM::facetFEM
+                 ]
+                 Reason: cannot convert from 'elementFEM::facetFEM *' to 'boost::shared_ptr<T>'
+                 with
+                 [
+                     T=elementFEM::facetFEM
+                 ]
+                 Constructor for class 'boost::shared_ptr<T>' is declared 'explicit'
+                 with
+                 [
+                     T=elementFEM::facetFEM
+                 ]
+     1>c:\users\vaio\documents\visual studio 2012\projects\heat\heat\femcode.cpp(78): error C2440: 'initializing' : cannot convert from 'boost::shared_ptr<T>' to 'elementFEM::facetFEM *'
+                 with
+                 [
+                     T=elementFEM::facetFEM
+                 ]
+                 No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+         Generating Code...
+     1>Done Building Project "C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Heat.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:12.15
+Time Elapsed 00:00:15.24

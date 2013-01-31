@@ -2,7 +2,7 @@
 #include "FEMObjects.h"
 #include <boost\assign\std\vector.hpp>
 #include "MatrixIntegration.h"
-//#include "boost\thread\thread.hpp"
+//#include "boost\thread\thread.hpp"  // it fuckin' works!
 
 #define ff_num 8
 
@@ -14,7 +14,13 @@ elementMesh::elementMesh()
 }
 
 elementMesh::~elementMesh()
-{
+{		
+}
+
+
+///////////////// NODE ////////////////////////
+node::~node()
+{	
 }
 
 
@@ -23,23 +29,30 @@ elementMesh::~elementMesh()
 bool elementFEM::NaturalCoordinates_Set;
 std::vector<std::vector<coordinate>> elementFEM::Shape::NC;
 
-elementFEM::elementFEM(elementMesh, int number)
+elementFEM::elementFEM(elementMesh &one, index number)
 {
 	this->iGlob = number;
-	this->Matrix.host = this; this->form.host = this;
+	this->Matrix.host = elementFEM_ptr(this); this->form.host = elementFEM_ptr(this);
+	this->Stuff = new material(one.Stuff); this->Node = std::vector<node_ptr>(one.Node);
 
-	BOOST_FOREACH(node* n,  this->Node)
-		n->element.push_back(this);		
+	// there's also some facet-related info in a mesh element which translates into facetFem info in an elementFEM element
+
+	BOOST_FOREACH(node_ptr n,  this->Node)
+		n->element.push_back(elementFEM_ptr(this));	
 
 	if (this->NaturalCoordinates_Set != true)
 		this->form.set_form_functions(); // doesn't really set the functions themselves, but rather initializes the necessities	
 }
 
 elementFEM::~elementFEM()
-{
+{	
+	this->Node.clear(); // not sure
+	this->Facet.clear();
+
+	this->form.NC.clear();
+	
 }
 
-//std::vector<std::vector<coordinate>> elementFEM::Shape::NC;
 // to be changed according to the preferred form functions
 void elementFEM::Shape::set_form_functions()
 {
@@ -90,14 +103,11 @@ matrix elementFEM::Shape::Jacobian(coordinate u,coordinate v,coordinate g)
 
 coordinate elementFEM::Shape::transform(std::vector<coordinate> X,coordinate u,coordinate v,coordinate g)
 {
-	int nn = X.size();
-	//this->form_vector_uvg = std::vector<coordinate>(nn);
+	size_t nn = X.size();	
 	coordinate result = 0;
 
-	for(int i = 0; i < nn; i++){
-		//this->form_vector_uvg[i] = this->function_i(u,v,g,i);
-		result += X[i]*this->function_i(u,v,g,i);//this->form_vector_uvg[i];
-	}
+	for(index i = 0; i < nn; i++)
+		result += X[i]*this->function_i(u,v,g,i);	
 
 	return result;
 }
@@ -113,7 +123,7 @@ sym_matrix elementFEM::Matrix_Container::calculate_C()
 		{
 			coordinate u = in[0]; coordinate v = in[1]; coordinate g = in[2];
 
-			mx_elem detJ = abs(det(host->form.Jacobian(u,v,g))); // !! the absolute value
+			mx_elem detJ = abs(det_inv(host->form.Jacobian(u,v,g))); // !! the absolute value
 
 			return host->form.function_i(u,v,g,this->row)*host->form.function_i(u,v,g,this->col)*detJ;
 		}
@@ -193,7 +203,7 @@ vector elementFEM::Matrix_Container::calculate_Q()
 		{
 			coordinate u = in[0]; coordinate v = in[1]; coordinate g = in[2];
 			
-			mx_elem detJ = abs(det(host->form.Jacobian(u,v,g))); // !! the absolute value
+			mx_elem detJ = abs(det_inv(host->form.Jacobian(u,v,g))); // !! the absolute value
 
 			return host->form.function_i(u,v,g,this->row)*detJ;
 		}
@@ -214,41 +224,18 @@ vector elementFEM::Matrix_Container::calculate_Q()
 	return Q;
 }
 
-
-//////////// MATERIAL ////////////
-
-material::material()
+void elementFEM::facetFEM::flatten()
 {
 }
 
-material::~material()
-{
-}
-
-
-/////////// FACET ///////////
-
-facet::facet(/*std::vector<node>*/)
-{
-	// flattening takes place here
-}
-
-facet::~facet()
-{
-}
-
-void facet::flatten()
-{
-}
-
-mx_elem facet::function_i(coordinate u,coordinate v,index inode)
+mx_elem elementFEM::facetFEM::function_i(coordinate u,coordinate v,index inode)
 {
 	mx_elem f = 1/4 * (1 + u*elementFEM::Shape::NC[0][inode])*(1 + v*elementFEM::Shape::NC[1][inode]);
 	
 	return f;
 }
 
-vector facet::gradn_function_i(coordinate u,coordinate v,index inode)
+vector elementFEM::facetFEM::gradn_function_i(coordinate u,coordinate v,index inode)
 {
 	coordinate ui = elementFEM::Shape::NC[0][inode]; coordinate vi = elementFEM::Shape::NC[1][inode];
 	vector gradn(2); 
@@ -256,9 +243,9 @@ vector facet::gradn_function_i(coordinate u,coordinate v,index inode)
 	return 1/4 * gradn;
 }
 
-matrix facet::Jacobian(coordinate u,coordinate v)
+matrix elementFEM::facetFEM::Jacobian(coordinate u,coordinate v)
 {
-	index nds_on_fct = this->Node.size();
+	size_t nds_on_fct = this->Node.size();
 	std::vector<vector> gradn_fs(nds_on_fct);	
 	for (index col = 0; col < nds_on_fct; col++)
 		gradn_fs[col] = this->gradn_function_i(u,v,col);			
@@ -268,7 +255,7 @@ matrix facet::Jacobian(coordinate u,coordinate v)
 		for (index col = 0; col < nds_on_fct; col++)
 		{
 			gradn_f_mx(row,col) = gradn_fs[col][row];
-			XY(col,row) += this->Node[col].x[row];
+			XY(col,row) += this->Node[col]->x[row];
 		}	
 
 	matrix J(2,2);	
@@ -277,22 +264,22 @@ matrix facet::Jacobian(coordinate u,coordinate v)
 	return J;
 }
 
-sym_matrix facet::calc_K_Neu()
+sym_matrix elementFEM::facetFEM::calc_K_Neu()
 {
-	struct local : integrable<facet>
+	struct local : integrable<facetFEM>
 	{			
-		local(facet* host,index row,index column) : integrable(host,row,column){}		
+		local(facetFEM* host,index row,index column) : integrable(host,row,column){}		
 
 		mx_elem operator()(std::vector<coordinate> in)
 		{
 			coordinate u = in[0]; coordinate v = in[1]; 
 
 			matrix J = this->host->Jacobian(u,v);			
-			mx_elem detJ = abs(det(J)); // !! the absolute value			
+			mx_elem detJ = abs(det_inv(J)); // !! the absolute value			
 			mx_elem Ni = this->host->function_i(u,v,this->row);
 			mx_elem Nj = this->host->function_i(u,v,this->col);
 			
-			return ( Ni*Nj )*detJ; // coefficient before Ni*Nj not there yet, the convection_constant*Tambnt that is
+			return ( Ni*Nj )*detJ; // coefficient before Ni*Nj not there yet, the convection_constant that is
 		}
 	};		
 
@@ -301,7 +288,7 @@ sym_matrix facet::calc_K_Neu()
 	domain[0] += -1,-1; domain[1] += 1,1;
 
 	integrand K_integr;	
-	index nds_on_fct = this->Node.size();
+	size_t nds_on_fct = this->Node.size();
 	sym_matrix K(nds_on_fct,nds_on_fct);
 	for (index row = 0; row < nds_on_fct; row++) 
 		for (index col = 0; col <= row; col++) //no need to calculate all entries, the matrix is symmetric
@@ -313,19 +300,19 @@ sym_matrix facet::calc_K_Neu()
 	return K;
 }
 
-vector facet::calc_Q_Neu()
+vector elementFEM::facetFEM::calc_Q_Neu()
 {
-	struct local : integrable<facet>
+	struct local : integrable<facetFEM>
 	{	
-		local(facet* host,index row, int column = 1) : integrable(host,row,column){}
+		local(facetFEM* host,index row, int column = 1) : integrable(host,row,column){}
 
 		mx_elem operator()(std::vector<coordinate> in)
 		{
 			coordinate u = in[0]; coordinate v = in[1];
 			
-			mx_elem detJ = abs(det(host->Jacobian(u,v))); // !! the absolute value
+			mx_elem detJ = abs(det_inv(host->Jacobian(u,v))); // !! the absolute value
 
-			return host->function_i(u,v,this->row)*detJ;
+			return host->function_i(u,v,this->row)*detJ; // coefficient before Ni not there yet, the convection_constant*Tambnt + Q_boundary that is
 		}
 	};	
 
@@ -334,7 +321,7 @@ vector facet::calc_Q_Neu()
 	domain[0] += -1,-1; domain[1] += 1,1;
 
 	integrand Q_integr;
-	index nds_on_fct = this->Node.size();
+	size_t nds_on_fct = this->Node.size();
 	vector Q(nds_on_fct);
 	for (index row = 0; row < nds_on_fct; row++)
 	{
@@ -343,4 +330,19 @@ vector facet::calc_Q_Neu()
 	}
 
 	return Q;
+}
+
+
+//////////// MATERIAL ////////////
+
+material::material()
+{
+}
+
+material::material(material_ptr)
+{
+}
+
+material::~material()
+{
 }
