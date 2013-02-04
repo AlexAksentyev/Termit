@@ -1,24 +1,24 @@
-﻿Build started 01.02.2013 1:38:10.
-     1>Project "C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Heat.vcxproj" on node 2 (Build target(s)).
+﻿Build started 04.02.2013 8:04:32.
+     1>Project "C:\Users\Asus\Documents\GitHub\Termit\Heat\Heat\Heat.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IC:\Users\VAIO\Desktop\CnrDev\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt FEMCode.cpp FEMObjects.cpp MatrixIntegration.cpp
+         C:\Program Files\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ID:\boost\boost_1_52_0 /IC:\Users\VAIO\Desktop\CnrDev\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt FEMCode.cpp FEMObjects.cpp MatrixIntegration.cpp
          FEMObjects.cpp
          Generating Code...
          Compiling...
+         MatrixIntegration.cpp
+     1>c:\users\asus\documents\github\termit\heat\heat\matrixintegration.cpp(91): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
          FEMCode.cpp
          Generating Code...
-         Skipping... (no relevant changes detected)
-         MatrixIntegration.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\VAIO\Desktop\CnrDev\boost_1_52_0\boost_1_52_0\stage\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.lib" /MACHINE:X86 Debug\Heat.res
+         C:\Program Files\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Asus\Documents\GitHub\Termit\Heat\Debug\Heat.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\boost\boost_1_52_0\stage\lib /LIBPATH:C:\Users\VAIO\Desktop\CnrDev\boost_1_52_0\boost_1_52_0\stage\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Asus\Documents\GitHub\Termit\Heat\Debug\Heat.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Asus\Documents\GitHub\Termit\Heat\Debug\Heat.lib" /MACHINE:X86 Debug\Heat.res
          Debug\FEMCode.obj
          Debug\FEMObjects.obj
          Debug\Heat.obj
          Debug\MatrixIntegration.obj
          Debug\stdafx.obj
-         Heat.vcxproj -> C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.exe
-     1>Done Building Project "C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Heat.vcxproj" (Build target(s)).
+         Heat.vcxproj -> C:\Users\Asus\Documents\GitHub\Termit\Heat\Debug\Heat.exe
+     1>Done Building Project "C:\Users\Asus\Documents\GitHub\Termit\Heat\Heat\Heat.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:14.10
+Time Elapsed 00:01:14.40

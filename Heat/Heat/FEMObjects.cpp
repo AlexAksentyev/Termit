@@ -2,7 +2,6 @@
 #include "FEMObjects.h"
 #include <boost\assign\std\vector.hpp>
 #include "MatrixIntegration.h"
-//#include "boost\thread\thread.hpp"  // it fuckin' works!
 
 #define ff_num 8
 
@@ -15,12 +14,15 @@ elementMesh::elementMesh()
 
 elementMesh::~elementMesh()
 {		
+	delete this->Stuff;
+	this->Node.clear();
 }
 
 
 ///////////////// NODE ////////////////////////
 node::~node()
 {	
+	this->element.clear();
 }
 
 
@@ -37,8 +39,8 @@ elementFEM::elementFEM(elementMesh &one, index number)
 
 	// there's also some facet-related info in a mesh element which translates into facetFem info in an elementFEM element
 
-	BOOST_FOREACH(node n,  this->Node)
-		n.element.push_back(this);	
+	for(index n = 0; n != this->Node.size(); n++)
+		this->Node[n].element.push_back(this);	
 
 	if (this->NaturalCoordinates_Set != true)
 		this->form.set_form_functions(); // doesn't really set the functions themselves, but rather initializes the necessities	
@@ -48,9 +50,7 @@ elementFEM::~elementFEM()
 {	
 	this->Node.clear(); // not sure
 	this->Facet.clear();
-
-	this->form.NC.clear();
-	
+	delete this->Stuff;
 }
 
 // to be changed according to the preferred form functions
@@ -117,7 +117,7 @@ sym_matrix elementFEM::Matrix_Container::calculate_C()
 	// at present, the integrand doesn't use the material properties of its region
 	struct local : integrable<elementFEM>
 	{	
-		local(elementFEM* element,index row,index column) : integrable(element,row,column){}
+		local(elementFEM_ptr element,index row,index column) : integrable(element,row,column){}
 
 		mx_elem operator()(std::vector<coordinate> in)
 		{
@@ -152,7 +152,7 @@ sym_matrix elementFEM::Matrix_Container::calculate_K()
 	// at present, the integrand doesn't use the material properties of its region
 	struct local : integrable<elementFEM>
 	{	
-		local(elementFEM* element,index row,index column) : integrable(element,row,column){}
+		local(elementFEM_ptr element,index row,index column) : integrable(element,row,column){}
 
 		mx_elem operator()(std::vector<coordinate> in)
 		{
@@ -197,7 +197,7 @@ vector elementFEM::Matrix_Container::calculate_Q()
 	// at present, the integrand doesn't use the material properties of its region
 	struct local : integrable<elementFEM>
 	{	
-		local(elementFEM* element,index row, int column = 1) : integrable(element,row,column){}
+		local(elementFEM_ptr element,index row, int column = 1) : integrable(element,row,column){}
 
 		mx_elem operator()(std::vector<coordinate> in)
 		{
@@ -270,7 +270,7 @@ sym_matrix facetFEM::calc_K_Neu()
 {
 	struct local : integrable<facetFEM>
 	{			
-		local(facetFEM* host,index row,index column) : integrable(host,row,column){}		
+		local(facetFEM_ptr host,index row,index column) : integrable(host,row,column){}		
 
 		mx_elem operator()(std::vector<coordinate> in)
 		{
@@ -306,7 +306,7 @@ vector facetFEM::calc_Q_Neu()
 {
 	struct local : integrable<facetFEM>
 	{	
-		local(facetFEM* host,index row, int column = 1) : integrable(host,row,column){}
+		local(facetFEM_ptr host,index row, int column = 1) : integrable(host,row,column){}
 
 		mx_elem operator()(std::vector<coordinate> in)
 		{

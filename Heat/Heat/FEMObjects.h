@@ -8,7 +8,6 @@
 #include <boost\ptr_container\ptr_vector.hpp>
 
 
-
 typedef	double			coordinate;
 typedef double			temperature;
 typedef	std::size_t		index;
@@ -27,9 +26,9 @@ typedef boost::ptr_vector<elementFEM>				elementFEM_ptr_vector;
 class node
 {	
 public:
-	coordinate x[3]; // for the present assume they're given explicitly, and not via the i,j,k indexes on the grid
+	coordinate x[3]; // for the present assume they're given explicitly, and not via the i,j,k indices on the grid
 	index iGlob; 
-	std::vector<elementFEM_ptr> element;	// the elements a node belongs to
+	elementFEM_ptr_vector element;	// the elements a node belongs to
 
 	~node();
 };
@@ -41,7 +40,7 @@ class material;
 
 typedef material*									material_ptr;
 
-// what is passed into my code to be attributed with FEM parameters like indexes
+// what is passed into my code to be attributed with FEM parameters like indices
 class elementMesh
 {
 public:
@@ -60,9 +59,12 @@ struct facetFEM;
 typedef facetFEM*									facetFEM_ptr;
 typedef boost::ptr_vector<facetFEM>					facetFEM_ptr_vector;
 
-class elementFEM : public elementMesh // adds FEM - required properties to elementMesh
+class elementFEM // adds FEM - required properties to elementMesh
 {
 public:
+
+	material_ptr Stuff;	// a pointer to the object containing the material properties of an element
+	node_ptr_vector Node;	// an array of the nodes of an element, the position of a node in the array is the node's local index in the element
 	
 	index iGlob; 
 	static bool NaturalCoordinates_Set; // to avoid multiple initialization of NC	
