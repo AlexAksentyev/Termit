@@ -7,7 +7,6 @@
 #include <boost\foreach.hpp>
 #include <boost\ptr_container\ptr_vector.hpp>
 
-
 typedef	double			coordinate;
 typedef double			temperature;
 typedef	std::size_t		index;
@@ -58,6 +57,8 @@ public:
 	~elementMesh();
 
 };
+
+typedef elementMesh*								elementMesh_ptr;
 
 struct facetFEM;
 

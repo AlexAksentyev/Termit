@@ -3,9 +3,9 @@
 #include <boost\numeric\ublas\matrix_sparse.hpp>
 
 
-void FEMCode(std::vector<elementMesh>); // the base code computing the temperature distribution
+void FEMCode(std::vector<elementMesh_ptr>); // the base code computing the temperature distribution
 
-void compose_FEM_mesh(std::vector<elementMesh>&, elementFEM_ptr_vector&, facetFEM_ptr_vector&); // given a collection of mesh elements, produce a FEM mesh
+void compose_FEM_mesh(std::vector<elementMesh_ptr>&, elementFEM_ptr_vector&, facetFEM_ptr_vector&); // given a collection of mesh elements, produce a FEM mesh
 
 struct GlobalMatrices;
 

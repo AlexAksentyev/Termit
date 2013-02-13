@@ -4,7 +4,7 @@
 
 // #define _SCL_SECURE_NO_WARNINGS ! is defined in properties -> preprocessor definitions
 
-void FEMCode(std::vector<elementMesh> elements)
+void FEMCode(std::vector<elementMesh_ptr> elements)
 {	
 	// the following sections should probably be put into separate functions
 
@@ -12,7 +12,7 @@ void FEMCode(std::vector<elementMesh> elements)
 	elementFEM_ptr_vector	HexElement(elements.size());
 	facetFEM_ptr_vector		Boundary(6*HexElement.size());
 	compose_FEM_mesh(elements,HexElement,Boundary);
-	elements.~vector();
+	elements.~vector(); // destroys the elements of the vector but keeps the referenced mesh model elements untouched for further use
 	
 	// ODE system obtaining		
 	GlobalMatrices gm(1000); // the actual number of nodes put here instead of 1000, finding ways to avoid preallocating it is preferable	
@@ -26,13 +26,13 @@ void FEMCode(std::vector<elementMesh> elements)
 }
 
 
-void compose_FEM_mesh(std::vector<elementMesh> &elements, elementFEM_ptr_vector &HexElements, facetFEM_ptr_vector &Boundaries)
+void compose_FEM_mesh(std::vector<elementMesh_ptr> &elements, elementFEM_ptr_vector &HexElements, facetFEM_ptr_vector &Boundaries)
 {	
 	elementFEM::NaturalCoordinates_Set = false;
 	
 	index cnt = 0; // may be calculated **
-	BOOST_FOREACH(elementMesh elem, elements){	
-		elementFEM one = elementFEM(elem,cnt);
+	BOOST_FOREACH(elementMesh_ptr elem_ptr, elements){			
+		elementFEM one = elementFEM(*elem_ptr,cnt);
 		HexElements.push_back(&one);
 		BOOST_FOREACH(facetFEM f, one.Facet)
 		{
