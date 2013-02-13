@@ -34,7 +34,7 @@ void compose_FEM_mesh(std::vector<elementMesh> &elements, elementFEM_ptr_vector 
 	BOOST_FOREACH(elementMesh elem, elements){	
 		elementFEM one = elementFEM(elem,cnt);
 		HexElements.push_back(&one);
-		BOOST_FOREACH(facetFEM f, Boundaries)
+		BOOST_FOREACH(facetFEM f, one.Facet)
 		{
 			index nind = 0; size_t NofFacetNds = f.Node.size(); size_t NofElts = 1;			
 			while((NofElts == 1) && (nind < NofFacetNds)){

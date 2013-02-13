@@ -16,6 +16,7 @@ elementMesh::~elementMesh()
 {		
 	delete this->Stuff;
 	this->Node.clear();
+	this->Facet.clear();
 }
 
 
@@ -38,12 +39,16 @@ elementFEM::elementFEM(elementMesh &one, index number)
 	this->Stuff = new material(one.Stuff); this->Node = node_ptr_vector(one.Node);
 
 	// there's also some facet-related info in a mesh element which translates into facetFem info in an elementFEM element
+	BOOST_FOREACH(facet f, one.Facet)
+		this->Facet.push_back(new facetFEM(f));
 
 	for(index n = 0; n != this->Node.size(); n++)
 		this->Node[n].element.push_back(this);	
 
 	if (this->NaturalCoordinates_Set != true)
 		this->form.set_form_functions(); // doesn't really set the functions themselves, but rather initializes the necessities	
+
+	this->Matrix.C(ff_num,ff_num); this->Matrix.K(ff_num,ff_num); this->Matrix.Q(ff_num);
 }
 
 elementFEM::~elementFEM()
@@ -51,6 +56,8 @@ elementFEM::~elementFEM()
 	this->Node.clear(); // not sure
 	this->Facet.clear();
 	delete this->Stuff;
+
+	// might want to erase the local matrices
 }
 
 // to be changed according to the preferred form functions
@@ -335,6 +342,17 @@ vector facetFEM::calc_Q_Neu()
 }
 
 
+facetFEM::facetFEM(facet &face) // makes a FEM facet out of a simple mesh facet
+{
+}
+
+facetFEM::~facetFEM()
+{
+	this->Node.clear();
+
+	// might also want to erase the local matrices
+
+}
 //////////// MATERIAL ////////////
 
 material::material()

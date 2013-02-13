@@ -40,14 +40,19 @@ class material;
 
 typedef material*									material_ptr;
 
+struct facet
+{
+};
+
+typedef boost::ptr_vector<facet>					facet_ptr_vector;
+
 // what is passed into my code to be attributed with FEM parameters like indices
 class elementMesh
 {
 public:
 	material_ptr Stuff;	// a pointer to the object containing the material properties of an element
 	node_ptr_vector	Node;	// an array of the nodes of an element, the position of a node in the array is the node's local index in the element
-
-	// some facet info will be here, for now assume in includes not only geometrical but also physical parameters such as ambient temperature
+	facet_ptr_vector Facet; // the facets of an element, not indexed yet
 
 	elementMesh();
 	~elementMesh();
@@ -118,6 +123,9 @@ struct facetFEM
 	
 	sym_matrix calc_K_Neu();
 	vector calc_Q_Neu();	
+
+	facetFEM(facet&);
+	~facetFEM();
 
 private:
 
