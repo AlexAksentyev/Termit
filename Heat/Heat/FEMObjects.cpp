@@ -15,7 +15,7 @@ elementMesh::elementMesh()
 elementMesh::~elementMesh()
 {		
 	delete this->Stuff;
-	this->Node.clear();
+	this->Node.clear(); // note that it only deletes pointers from the vector and not the actual nodes of the mesh
 	this->Facet.clear();
 }
 
@@ -32,18 +32,18 @@ node::~node()
 bool elementFEM::NaturalCoordinates_Set;
 std::vector<std::vector<coordinate>> elementFEM::Shape::NC;
 
-elementFEM::elementFEM(elementMesh &one, index number)
+elementFEM::elementFEM(elementMesh_ptr one, index number)
 {
 	this->iGlob = number;
 	this->Matrix.host = this; this->form.host = this;
-	this->Stuff = new material(one.Stuff); this->Node = node_ptr_vector(one.Node);
+	this->Stuff = one->Stuff; this->Node = one->Node;
 
 	// there's also some facet-related info in a mesh element which translates into facetFem info in an elementFEM element
-	BOOST_FOREACH(facet f, one.Facet)
-		this->Facet.push_back(new facetFEM(f));
+	BOOST_FOREACH(facet* f, one->Facet)
+		this->Facet.push_back(new facetFEM(*f));
 
 	for(index n = 0; n != this->Node.size(); n++)
-		this->Node[n].element.push_back(this);	
+		this->Node[n]->element.push_back(this);	
 
 	if (this->NaturalCoordinates_Set != true)
 		this->form.set_form_functions(); // doesn't really set the functions themselves, but rather initializes the necessities	
@@ -53,10 +53,7 @@ elementFEM::elementFEM(elementMesh &one, index number)
 
 elementFEM::~elementFEM()
 {	
-	this->Node.clear(); // not sure
-	this->Facet.clear();
-	delete this->Stuff;
-
+	this->Facet.clear(); // facetFEMs are created on constuction, the rest of the arrays used in a FEM element are just taken from the mesh
 	// might want to erase the local matrices
 }
 
@@ -99,7 +96,7 @@ matrix elementFEM::Shape::Jacobian(coordinate u,coordinate v,coordinate g)
 		for (index col = 0; col < ff_num; col++)
 		{
 			gradn_f_mx(row,col) = gradn_fs[col][row];
-			XYZ(col,row) += this->host->Node[col].x[row];
+			XYZ(col,row) += this->host->Node[col]->x[row];
 		}	
 
 	matrix J(3,3);	
@@ -237,6 +234,11 @@ void facetFEM::flatten()
 {
 }
 
+facetFEM* facetFEM::ptr_to_facetFEM(facetFEM &f) 
+{
+	return &f;
+}
+
 mx_elem facetFEM::function_i(coordinate u,coordinate v,index inode)
 {
 	mx_elem f = 1/4 * (1 + u*elementFEM::Shape::NC[0][inode])*(1 + v*elementFEM::Shape::NC[1][inode]);
@@ -264,7 +266,7 @@ matrix facetFEM::Jacobian(coordinate u,coordinate v)
 		for (index col = 0; col < nds_on_fct; col++)
 		{
 			gradn_f_mx(row,col) = gradn_fs[col][row];
-			XY(col,row) += this->Node[col].x[row];
+			XY(col,row) += this->Node[col]->x[row];
 		}	
 
 	matrix J(2,2);	
@@ -344,14 +346,14 @@ vector facetFEM::calc_Q_Neu()
 
 facetFEM::facetFEM(facet &face) // makes a FEM facet out of a simple mesh facet
 {
+	// add Node, h_conv, Tamb extraction from face
+	size_t size = this->Node.size();
+	this->K_Neu(size, size); this->Q_Neu(size);
 }
 
 facetFEM::~facetFEM()
 {
-	this->Node.clear();
-
-	// might also want to erase the local matrices
-
+	// might want to erase the local matrices
 }
 //////////// MATERIAL ////////////
 

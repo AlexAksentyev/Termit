@@ -9,7 +9,7 @@ void compose_FEM_mesh(std::vector<elementMesh_ptr>&, elementFEM_ptr_vector&, fac
 
 struct GlobalMatrices;
 
-void calc_element_matrices(elementFEM_ptr, GlobalMatrices&); // calculates an element's C,K,Q
+void calc_element_matrices(elementFEM&, GlobalMatrices&); // calculates an element's C,K,Q
 
 void impose_Neumann(facetFEM_ptr_vector&, GlobalMatrices&); // calculates all the additional matrices and incorporates them into the global matrices;
 

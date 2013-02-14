@@ -33,7 +33,7 @@ public:
 };
 
 typedef node*										node_ptr;
-typedef boost::ptr_vector<node>						node_ptr_vector;
+typedef std::vector<node_ptr>						node_ptr_vector;
 
 class material;
 
@@ -43,7 +43,8 @@ struct facet
 {
 };
 
-typedef boost::ptr_vector<facet>					facet_ptr_vector;
+typedef facet*										facet_ptr;
+typedef std::vector<facet_ptr>						facet_ptr_vector;
 
 // what is passed into my code to be attributed with FEM parameters like indices
 class elementMesh
@@ -108,7 +109,7 @@ public:
 
 	facetFEM_ptr_vector Facet; // initialized in the elementFEM constructor (should be, not yet)
 
-	elementFEM(elementMesh&, index);
+	elementFEM(elementMesh_ptr, index);
 	~elementFEM();	
 	
 };
@@ -123,7 +124,9 @@ struct facetFEM
 	double h_conv;
 	
 	sym_matrix calc_K_Neu();
-	vector calc_Q_Neu();	
+	vector calc_Q_Neu();
+
+	static facetFEM* ptr_to_facetFEM(facetFEM&); // made it this way so i could easier change to smart pointers
 
 	facetFEM(facet&);
 	~facetFEM();
