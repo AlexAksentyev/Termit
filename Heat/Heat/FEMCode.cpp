@@ -4,18 +4,18 @@
 
 // #define _SCL_SECURE_NO_WARNINGS ! is defined in properties -> preprocessor definitions
 
-void FEMCode(std::vector<elementMesh_ptr> elements)
+void FEMCode(std::vector<elementMesh_ptr> elements) // instead of the vector of elements, indices of the elements will be transfered into the code; the (full) mesh model is transfered only first time
 {	
 	// the following sections should probably be put into separate functions
 
 	// FEM mesh and boundary generation
 	elementFEM_ptr_vector	HexElement(elements.size());
-	facetFEM_ptr_vector		Boundary(6*HexElement.size());
+	facetFEM_ptr_vector		Boundary(6*HexElement.size()); // TOO MUCH SPACE !!	
 	compose_FEM_mesh(elements,HexElement,Boundary);
-	elements.~vector(); // destroys the elements of the vector but keeps the referenced mesh model elements untouched for further use (at least i hope it works this way, gotta check)
+	elements.~vector(); // destroys the elements of the vector but keeps the referenced mesh model elements untouched for further use
 	
 	// ODE system obtaining		
-	GlobalMatrices gm(1000); // the actual number of nodes put here instead of 1000, finding ways to avoid preallocating it is preferable	
+	GlobalMatrices gm(1000); // the actual number of nodes put here instead of 1000, finding ways to avoid preallocating it is PREFERABLE !!!
 	BOOST_FOREACH(elementFEM element, HexElement)				
 		calc_element_matrices(element, gm);
 
@@ -43,7 +43,7 @@ void compose_FEM_mesh(std::vector<elementMesh_ptr> &elements, elementFEM_ptr_vec
 			}
 
 			if(NofElts == 1) // if all nodes of the facet are referenced by only one element then so is the facet, and hence it's boundary
-				Boundaries.push_back(facetFEM::ptr_to_facetFEM(f));		
+				Boundaries.push_back(&f);		
 		}
 		cnt++; // **, for now it's just increment
 	}

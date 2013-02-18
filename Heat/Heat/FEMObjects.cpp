@@ -35,12 +35,12 @@ std::vector<std::vector<coordinate>> elementFEM::Shape::NC;
 elementFEM::elementFEM(elementMesh_ptr one, index number)
 {
 	this->iGlob = number;
-	this->Matrix.host = this; this->form.host = this;
+	this->Matrix.host = this; this->form.host = this; // might want to change these to boost::shared_pointer
 	this->Stuff = one->Stuff; this->Node = one->Node;
 
 	// there's also some facet-related info in a mesh element which translates into facetFem info in an elementFEM element
-	BOOST_FOREACH(facet* f, one->Facet)
-		this->Facet.push_back(new facetFEM(*f));
+	BOOST_FOREACH(facet_ptr f, one->Facet)
+		this->Facet.push_back(new facetFEM(f));
 
 	for(index n = 0; n != this->Node.size(); n++)
 		this->Node[n]->element.push_back(this);	
@@ -234,11 +234,6 @@ void facetFEM::flatten()
 {
 }
 
-facetFEM* facetFEM::ptr_to_facetFEM(facetFEM &f) 
-{
-	return &f;
-}
-
 mx_elem facetFEM::function_i(coordinate u,coordinate v,index inode)
 {
 	mx_elem f = 1/4 * (1 + u*elementFEM::Shape::NC[0][inode])*(1 + v*elementFEM::Shape::NC[1][inode]);
@@ -343,8 +338,14 @@ vector facetFEM::calc_Q_Neu()
 	return Q;
 }
 
-
 facetFEM::facetFEM(facet &face) // makes a FEM facet out of a simple mesh facet
+{
+	// add Node, h_conv, Tamb extraction from face
+	size_t size = this->Node.size();
+	this->K_Neu(size, size); this->Q_Neu(size);
+}
+
+facetFEM::facetFEM(facet_ptr face) // makes a FEM facet out of a simple mesh facet
 {
 	// add Node, h_conv, Tamb extraction from face
 	size_t size = this->Node.size();

@@ -126,9 +126,8 @@ struct facetFEM
 	sym_matrix calc_K_Neu();
 	vector calc_Q_Neu();
 
-	static facetFEM* ptr_to_facetFEM(facetFEM&); // made it this way so i could easier change to smart pointers
-
 	facetFEM(facet&);
+	facetFEM(facet_ptr);
 	~facetFEM();
 
 private:
