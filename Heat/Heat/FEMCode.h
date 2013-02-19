@@ -1,6 +1,8 @@
 #include <vector>
 #include "FEMObjects.h"
 #include <boost\numeric\ublas\matrix_sparse.hpp>
+#include <fstream>
+#include <boost\function.hpp>
 
 
 void FEMCode(std::vector<elementMesh_ptr>); // the base code computing the temperature distribution
@@ -14,6 +16,11 @@ void calc_element_matrices(elementFEM&, GlobalMatrices&); // calculates an eleme
 void impose_Neumann(facetFEM_ptr_vector&, GlobalMatrices&); // calculates all the additional matrices and incorporates them into the global matrices;
 
 void impose_Dirichlet(facetFEM_ptr_vector&, GlobalMatrices&); // does entries elimination in the global K,Q; WORK ON AI,BI,RI IS STILL REQUIRED !!!
+
+typedef boost::function<mx_elem (std::vector<temperature> temp, double time)>						eqRHS;
+typedef boost::ptr_vector<eqRHS>																	eqs_ptr_vector;
+
+void RK(std::vector<temperature>, size_t num_of_stps, eqs_ptr_vector , double step, size_t NumOfNodes, std::ofstream& output_file);
 
 struct GlobalMatrices
 {
