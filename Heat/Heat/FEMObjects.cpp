@@ -6,20 +6,6 @@
 #define ff_num 8
 
 
-//////////////// ELEMENT_MESH /////////////////
-
-elementMesh::elementMesh()
-{
-}
-
-elementMesh::~elementMesh()
-{		
-	delete this->Stuff;
-	this->Node.clear(); // note that it only deletes pointers from the vector and not the actual nodes of the mesh
-	this->Facet.clear();
-}
-
-
 ///////////////// NODE ////////////////////////
 node::~node()
 {	
@@ -230,10 +216,6 @@ vector elementFEM::Matrix_Container::calculate_Q()
 
 //////////////////////// FACET_FEM //////////////////////////////
 
-void facetFEM::flatten()
-{
-}
-
 mx_elem facetFEM::function_i(coordinate u,coordinate v,index inode)
 {
 	mx_elem f = 1/4 * (1 + u*elementFEM::Shape::NC[0][inode])*(1 + v*elementFEM::Shape::NC[1][inode]);
@@ -343,6 +325,8 @@ facetFEM::facetFEM(facet &face) // makes a FEM facet out of a simple mesh facet
 	// add Node, h_conv, Tamb extraction from face
 	size_t size = this->Node.size();
 	this->K_Neu(size, size); this->Q_Neu(size);
+
+	this->Node = face.Node;
 }
 
 facetFEM::facetFEM(facet_ptr face) // makes a FEM facet out of a simple mesh facet
@@ -350,6 +334,8 @@ facetFEM::facetFEM(facet_ptr face) // makes a FEM facet out of a simple mesh fac
 	// add Node, h_conv, Tamb extraction from face
 	size_t size = this->Node.size();
 	this->K_Neu(size, size); this->Q_Neu(size);
+
+	this->Node = face->Node;
 }
 
 facetFEM::~facetFEM()

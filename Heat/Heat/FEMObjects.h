@@ -27,8 +27,9 @@ class node
 public:
 	coordinate x[3]; // for the present assume they're given explicitly, and not via the i,j,k indices on the grid
 	index iGlob; 
-	elementFEM_ptr_vector element;	// the elements a node belongs to
+	elementFEM_ptr_vector element;	// the elements a node belongs to; 8 tops, in any case
 
+private:
 	~node();
 };
 
@@ -41,6 +42,7 @@ typedef material*									material_ptr;
 
 struct facet
 {
+	node_ptr_vector Node; // 4 in the case of 8-nodded hexahedra
 };
 
 typedef facet*										facet_ptr;
@@ -54,9 +56,8 @@ public:
 	node_ptr_vector	Node;	// an array of the nodes of an element, the position of a node in the array is the node's local index in the element
 	facet_ptr_vector Facet; // the facets of an element, not indexed yet
 
-	elementMesh();
-	~elementMesh();
-
+	// no constructor (as of yet) because these are input
+	// no destructor either, because my code is not sanctioned to do do anything other than take data from an external model
 };
 
 typedef elementMesh*								elementMesh_ptr;
@@ -116,7 +117,7 @@ public:
 
 struct facetFEM
 {
-	node_ptr_vector Node; // already flat	
+	node_ptr_vector Node; // already so, that the facet is flat	
 	sym_matrix K_Neu;
 	vector Q_Neu;
 	
@@ -132,7 +133,7 @@ struct facetFEM
 
 private:
 
-	void flatten(); // need it(?) for boundary condition imposition
+	//void flatten(); // need it(?) for boundary condition imposition
 	
 	mx_elem function_i(coordinate,coordinate,index);
 	vector gradn_function_i(coordinate,coordinate,index); // gradient in natural coordinates. grad_xyz = Jacobian^-1 * gardn
