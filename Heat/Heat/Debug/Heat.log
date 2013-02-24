@@ -1,25 +1,11 @@
-﻿Build started 22.02.2013 16:50:27.
+﻿Build started 24.02.2013 20:38:52.
      1>Project "C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Heat.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ID:\boost\boost_1_52_0 /IC:\Users\VAIO\CnrDev\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt FEMCode.cpp FEMObjects.cpp MatrixIntegration.cpp
-         FEMObjects.cpp
-         Generating Code...
-         Compiling...
-         MatrixIntegration.cpp
-     1>c:\users\vaio\documents\github\termit\heat\heat\matrixintegration.cpp(91): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\VAIO\CnrDev\odeint-v2\odeint-v2" /ID:\boost\boost_1_52_0 /IC:\Users\VAIO\CnrDev\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt FEMCode.cpp
          FEMCode.cpp
-     1>c:\users\vaio\documents\github\termit\heat\heat\femcode.cpp(195): warning C4258: 'i' : definition from the for loop is ignored; the definition from the enclosing scope is used
-                 c:\users\vaio\documents\github\termit\heat\heat\femcode.cpp(189) : definition of 'i' ignored
-                 c:\users\vaio\documents\github\termit\heat\heat\femcode.cpp(178) : definition of 'i' used
-     1>c:\users\vaio\documents\github\termit\heat\heat\femcode.cpp(196): warning C4258: 'i' : definition from the for loop is ignored; the definition from the enclosing scope is used
-                 c:\users\vaio\documents\github\termit\heat\heat\femcode.cpp(189) : definition of 'i' ignored
-                 c:\users\vaio\documents\github\termit\heat\heat\femcode.cpp(178) : definition of 'i' used
-     1>c:\users\vaio\documents\github\termit\heat\heat\femcode.cpp(199): warning C4258: 'i' : definition from the for loop is ignored; the definition from the enclosing scope is used
-                 c:\users\vaio\documents\github\termit\heat\heat\femcode.cpp(189) : definition of 'i' ignored
-                 c:\users\vaio\documents\github\termit\heat\heat\femcode.cpp(178) : definition of 'i' used
-         Generating Code...
+     1>c:\users\vaio\documents\github\termit\heat\heat\femcode.cpp(156): warning C4129: 'o' : unrecognized character escape sequence
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\boost\boost_1_52_0\stage\lib /LIBPATH:C:\Users\VAIO\CnrDev\boost_1_52_0\boost_1_52_0\stage\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.lib" /MACHINE:X86 Debug\Heat.res
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\VAIO\CnrDev\odeint-v2\odeint-v2\libs" /LIBPATH:D:\boost\boost_1_52_0\stage\lib /LIBPATH:C:\Users\VAIO\CnrDev\boost_1_52_0\boost_1_52_0\stage\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.lib" /MACHINE:X86 Debug\Heat.res
          Debug\FEMCode.obj
          Debug\FEMObjects.obj
          Debug\Heat.obj
@@ -30,4 +16,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:33.06
+Time Elapsed 00:00:17.65

@@ -24,8 +24,9 @@ void FEMCode(std::vector<elementMesh_ptr> elements) // instead of the vector of 
 	impose_Neumann(Boundary, gm);
 
 	// ODE system solution
+	double step = 0.001; boost::numeric::ublas::vector<temperature> Tini = boost::numeric::ublas::vector<temperature>(1000);
+	ODE_Solver(gm, Tini, step);
 }
-
 
 void compose_FEM_mesh(std::vector<elementMesh_ptr> &elements, elementFEM_ptr_vector &HexElements, facetFEM_ptr_vector &Boundaries)
 {	
@@ -146,70 +147,30 @@ void impose_Neumann(facetFEM_ptr_vector &NeuBdry, GlobalMatrices &Global){
 //	}
 //}
 
-
-//the Runge - Kutta method
-void RK(std::vector<temperature> arg, size_t N, eqs_ptr_vector RHS, double tau, size_t NON, std::ofstream &out)
+void ODE_Solver(GlobalMatrices & GM, boost::numeric::ublas::vector<temperature> initials, double dt)
 {
-	std::vector<temperature> Y = std::vector<temperature>(NON); //array<double>^ Yj;
-	size_t last = 2*NON; //the index of the last element of Y,arg
-	std::vector<std::vector<double>> K = std::vector<std::vector<double>>(5);
-	for(int i=0;i<5;i++)
-		K[i] = std::vector<double>(2*NON+1); 
-	std::vector<double> Tprpr = std::vector<double>(NON); //making the acceleration array
+	RHS F(GM);
 
+	using namespace boost::numeric::odeint;
 
-		//making the output's header
-		out
-		<< "t = "
-		<< ", q0[t] = " << ", q0pr[t] = "
-		<< ", q1[t] = " << ", q1pr[t] = " 
-		<< ", H0[t] = " << ", H1[t] = " 
-		<< ", Fr0[t] = " << ", Fr1[t] = "
-		<< ", T0[t] = " << ", T1[t] = "
-		<< std::endl;//
+	integrate_const( runge_kutta4< vector >() , F , initials , 0.0 , 10.0 , dt, observer( std::ofstream("C:\output") ) );
+}
 
-	/////go thru points (j - cycle begin)///////////
-	for(index j = 0; j != N - 1; j++)
-	{		
-		double t = arg[last];// j*tau;
-		//arg[last] = t; //seems unnecessary
+RHS::RHS(GlobalMatrices& in)
+{
+	this->GM = in;
+	this->Cinv(GM.C.size1(),GM.C.size2());
+	bool inverted = InvertMatrix(GM.C, Cinv);
+}
 
-		//calculate Ks 1 thru 3
-		for(index i = 0; i != 4; i++)
-		{
-			//Y = Yj +Ki/2 if i != 3
-			for(index k = 0; k != 2*NON + 1; k++)
-			{
-				if(i == 3)
-				Y[k] = arg[k] + K[i][k];
-				else
-					Y[k] = arg[k] + 0.5*K[i][k];
-			}
-		    // => calculate accelerations
-			for (index i = 0; i != NON; i++)			
-				Tprpr[i] = RHS[i](Y,t);
+void RHS::operator()(vector &T, vector &dTdt, double t)
+{
+	dTdt = prod(Cinv, (-prod(GM.K, T) + GM.Q));
+}
 
-		    //calc Ki+1
-			for(index k = 0; k != NON; k++)
-			{
-				K[i+1][2*k+1] = Tprpr[k]*tau;
-				K[i+1][2*k] = Y[2*k+1]*tau;
-			}
-
-			K[i+1][last] = tau; 
-		}//end calculating Ks
-
-		//Yj+1 = Yj +(K1+2K2+2K3+k4)/6	// Yj+1 = Y
-		for(index i = 0; i != 2*NON + 1; i++)		
-			Y[i] = arg[i] +(K[1][i]+2*K[2][i]+2*K[3][i]+K[4][i])/6;
-		
-
-		for(index i = 0; i != 2*NON + 1; i++)
-			arg[i] = Y[i];
-
-	}//end going thru points (j - cycle)
-	
-}//end RK
+GlobalMatrices::GlobalMatrices()
+{
+}
 
 GlobalMatrices::GlobalMatrices(size_t NumOfNds)
 {

@@ -3,6 +3,7 @@
 #include <boost\numeric\ublas\matrix_sparse.hpp>
 #include <fstream>
 #include <boost\function.hpp>
+#include <boost\numeric\odeint.hpp>
 
 
 void FEMCode(std::vector<elementMesh_ptr>); // the base code computing the temperature distribution
@@ -17,10 +18,31 @@ void impose_Neumann(facetFEM_ptr_vector&, GlobalMatrices&); // calculates all th
 
 void impose_Dirichlet(facetFEM_ptr_vector&, GlobalMatrices&); // does entries elimination in the global K,Q; WORK ON AI,BI,RI IS STILL REQUIRED !!!
 
-typedef boost::function<mx_elem (std::vector<temperature> temp, double time)>						eqRHS;
-typedef boost::ptr_vector<eqRHS>																	eqs_ptr_vector;
+void ODE_Solver(GlobalMatrices&, boost::numeric::ublas::vector<temperature>, double); // solves the final system of ordinary differential equations
 
-void RK(std::vector<temperature>, size_t num_of_stps, eqs_ptr_vector , double step, size_t NumOfNodes, std::ofstream& output_file);
+bool InvertMatrix(const matrix& input, matrix& inverse)
+{
+	typedef boost::numeric::ublas::permutation_matrix<std::size_t> pmatrix;
+
+	// create a working copy of the input
+	matrix A(input);
+
+	// create a permutation matrix for the LU-factorization
+	pmatrix pm(A.size1());
+
+	// perform LU-factorization
+	int res = lu_factorize(A, pm);
+	if (res != 0)
+		return false;
+
+	// create identity matrix of "inverse"
+	inverse.assign(boost::numeric::ublas::identity_matrix<mx_elem> (A.size1()));
+
+	// backsubstitute to get the inverse
+	lu_substitute(A, pm, inverse);
+
+	return true;
+}
 
 struct GlobalMatrices
 {
@@ -28,7 +50,35 @@ struct GlobalMatrices
 	vector Q, Q_Dir, Q_Neu;
 	size_t NofNds; //may not be required
 
+	GlobalMatrices();
 	GlobalMatrices(size_t);
 	~GlobalMatrices();
 
+};
+
+class RHS
+{
+	GlobalMatrices GM;
+	matrix Cinv;
+	
+public:
+
+	RHS(GlobalMatrices&);
+
+	void operator() (vector&, vector&, double);
+};
+
+struct observer
+{
+	std::ofstream &output;
+
+	observer(std::ofstream out) : output(out) {}
+
+	void operator() (const vector &x, double t) const
+	{
+		output << t;
+          for( size_t i = 0 ; i < x.size() ; i++ )
+              output << "\t" << x[i];
+          output << "\n";
+	}
 };
