@@ -4,13 +4,14 @@
 #include <fstream>
 #include <boost\function.hpp>
 #include <boost\numeric\odeint.hpp>
+#include <string.h>
 
 
 void FEMCode(std::vector<elementMesh_ptr>); // the base code computing the temperature distribution
 
 void compose_FEM_mesh(std::vector<elementMesh_ptr>&, elementFEM_ptr_vector&, facetFEM_ptr_vector&); // given a collection of mesh elements, produce a FEM mesh
 
-struct GlobalMatrices;
+struct GlobalMatrices; struct ODEParameters;
 
 void calc_element_matrices(elementFEM&, GlobalMatrices&); // calculates an element's C,K,Q
 
@@ -18,7 +19,7 @@ void impose_Neumann(facetFEM_ptr_vector&, GlobalMatrices&); // calculates all th
 
 void impose_Dirichlet(facetFEM_ptr_vector&, GlobalMatrices&); // does entries elimination in the global K,Q; WORK ON AI,BI,RI IS STILL REQUIRED !!!
 
-void ODE_Solver(GlobalMatrices&, boost::numeric::ublas::vector<temperature>, double); // solves the final system of ordinary differential equations
+void ODE_Solver(boost::numeric::ublas::vector<temperature>&, ODEParameters&); // solves the final system of ordinary differential equations
 
 bool InvertMatrix(const matrix& input, matrix& inverse)
 {
@@ -56,14 +57,29 @@ struct GlobalMatrices
 
 };
 
+struct ODEParameters
+{
+	double time_step;
+	GlobalMatrices* matrices;
+	double time_span[2];
+	std::string output_file;
+
+	ODEParameters(double dt, GlobalMatrices* GM, double TS[], std::string name)
+	{
+		time_step = dt; matrices = GM; output_file = name;
+		for (index i = 0; i != 2; i++)
+			time_span[i] = TS[i];
+	}
+};
+
 class RHS
 {
-	GlobalMatrices GM;
+	GlobalMatrices* GM;
 	matrix Cinv;
 	
 public:
 
-	RHS(GlobalMatrices&);
+	RHS(GlobalMatrices*);
 
 	void operator() (vector&, vector&, double);
 };

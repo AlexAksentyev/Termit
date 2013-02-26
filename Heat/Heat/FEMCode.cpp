@@ -16,16 +16,19 @@ void FEMCode(std::vector<elementMesh_ptr> elements) // instead of the vector of 
 	elements.~vector(); // destroys the elements of the vector but keeps the referenced mesh model elements untouched for further use
 	
 	// ODE system obtaining		
-	GlobalMatrices gm(1000); // the actual number of nodes put here instead of 1000, finding ways to avoid preallocating it is PREFERABLE !!!
+	GlobalMatrices gm(1000); // the actual number of nodes put here instead of 1000, FINDING WAYS TO AVOID PREALLOCATING IT IS PREFERABLE !!!
 	BOOST_FOREACH(elementFEM element, HexElement)				
-		calc_element_matrices(element, gm);
+		calc_element_matrices(element, gm); // SHOULD PARALLEL IT OUT !!
 
 	// the imposition of Neumann boundary conditions
 	impose_Neumann(Boundary, gm);
 
 	// ODE system solution
-	double step = 0.001; boost::numeric::ublas::vector<temperature> Tini = boost::numeric::ublas::vector<temperature>(1000);
-	ODE_Solver(gm, Tini, step);
+	double step = 1e-3; double span [2] = {0, 10}; std::string filename = std::string("C:\output");
+	boost::numeric::ublas::vector<temperature> Tini = boost::numeric::ublas::vector<temperature>(1000);
+	ODEParameters parameters(step, &gm, span, filename);
+
+	ODE_Solver(Tini, parameters);
 }
 
 void compose_FEM_mesh(std::vector<elementMesh_ptr> &elements, elementFEM_ptr_vector &HexElements, facetFEM_ptr_vector &Boundaries)
@@ -147,25 +150,25 @@ void impose_Neumann(facetFEM_ptr_vector &NeuBdry, GlobalMatrices &Global){
 //	}
 //}
 
-void ODE_Solver(GlobalMatrices & GM, boost::numeric::ublas::vector<temperature> initials, double dt)
+void ODE_Solver(boost::numeric::ublas::vector<temperature>& initials, ODEParameters& Params)
 {
-	RHS F(GM);
+	RHS F(Params.matrices);
 
 	using namespace boost::numeric::odeint;
-
-	integrate_const( runge_kutta4< vector >() , F , initials , 0.0 , 10.0 , dt, observer( std::ofstream("C:\output") ) );
+	
+	integrate_const( runge_kutta4<vector>() , F , initials , Params.time_span[0] , Params.time_span[1] , Params.time_step, observer( std::ofstream(Params.output_file) ) ); // for now it outputs into a file only
 }
 
-RHS::RHS(GlobalMatrices& in)
+RHS::RHS(GlobalMatrices* in)
 {
 	this->GM = in;
-	this->Cinv(GM.C.size1(),GM.C.size2());
-	bool inverted = InvertMatrix(GM.C, Cinv);
+	this->Cinv(GM->C.size1(),GM->C.size2());
+	bool inverted = InvertMatrix(GM->C, Cinv);
 }
 
 void RHS::operator()(vector &T, vector &dTdt, double t)
 {
-	dTdt = prod(Cinv, (-prod(GM.K, T) + GM.Q));
+	dTdt = prod(Cinv, (-prod(GM->K, T) + GM->Q));
 }
 
 GlobalMatrices::GlobalMatrices()
