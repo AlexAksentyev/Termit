@@ -16,19 +16,19 @@ void FEMCode(std::vector<elementMesh_ptr> elements) // instead of the vector of 
 	elements.~vector(); // destroys the elements of the vector but keeps the referenced mesh model elements untouched for further use
 	
 	// ODE system obtaining		
-	ODE_Solver Solution(1000); // the actual number of nodes put here instead of 1000, FINDING WAYS TO AVOID PREALLOCATING IT IS PREFERABLE !!!
+	ODE_System System(1000); // the actual number of nodes put here instead of 1000, FINDING WAYS TO AVOID PREALLOCATING IT IS PREFERABLE !!!
 	BOOST_FOREACH(elementFEM element, HexElement)				
-		calc_element_matrices(element, Solution.GM); // SHOULD PARALLEL IT OUT !!
+		calc_element_matrices(element, System); // SHOULD PARALLEL IT OUT !!
 
 	// the imposition of Neumann boundary conditions
-	impose_Neumann(Boundary, Solution.GM);
+	impose_Neumann(Boundary, System);
 
 	// ODE system solution
 	double step = 1e-3; double span [2] = {0, 10}; std::string filename = std::string("C:\output");
-	boost::numeric::ublas::vector<temperature> Tini = boost::numeric::ublas::vector<temperature>(Solution.GM.K.size2());
-	ODE_Solver::ODEParameters parameters(step, span, filename);
+	System.parameters.Set(step, span, filename);
 
-	Solution.solve(Tini);
+	boost::numeric::ublas::vector<temperature> Tini = boost::numeric::ublas::vector<temperature>(System.GM.K.size2()); // initializes it with zeros
+	System.integrate(Tini);
 }
 
 void compose_FEM_mesh(std::vector<elementMesh_ptr> &elements, elementFEM_ptr_vector &HexElements, facetFEM_ptr_vector &Boundaries)
@@ -55,7 +55,7 @@ void compose_FEM_mesh(std::vector<elementMesh_ptr> &elements, elementFEM_ptr_vec
 
 }
 
-void calc_element_matrices(elementFEM &element, ODE_Solver::GlobalMatrices &Global)
+void calc_element_matrices(elementFEM &element, ODE_System &Sys)
 {
 	size_t size = element.Node.size();
 	std::vector<index> sctr = std::vector<index>(size);	// for assembling the current matrices into the global ones	
@@ -68,18 +68,18 @@ void calc_element_matrices(elementFEM &element, ODE_Solver::GlobalMatrices &Glob
 
 	for (index row = 0; row < size; row++) // the assembling
 	{
-		Global.Q(sctr[row]) += element.Matrix.Q(row);
+		Sys.GM.Q(sctr[row]) += element.Matrix.Q(row);
 		for (index col = 0; col < size; col++)
 		{
-			Global.C(sctr[row],sctr[col]) += element.Matrix.C(row,col);
-			Global.K(sctr[row],sctr[col]) += element.Matrix.K(row,col);			
+			Sys.GM.C(sctr[row],sctr[col]) += element.Matrix.C(row,col);
+			Sys.GM.K(sctr[row],sctr[col]) += element.Matrix.K(row,col);			
 		}
 	}
 }
 
-void impose_Neumann(facetFEM_ptr_vector &NeuBdry, ODE_Solver::GlobalMatrices &Global){
+void impose_Neumann(facetFEM_ptr_vector &NeuBdry, ODE_System &Sys){
 	// the matrices after the imposition are based upon the free ones **
-	Global.K_Neu = Global.K; Global.Q_Neu = Global.Q;
+	Sys.GM.K_Neu = Sys.GM.K; Sys.GM.Q_Neu = Sys.GM.Q;
 	
 	BOOST_FOREACH(facetFEM f, NeuBdry)
 	{
@@ -93,9 +93,9 @@ void impose_Neumann(facetFEM_ptr_vector &NeuBdry, ODE_Solver::GlobalMatrices &Gl
 
 		for (index row = 0; row < size; row++) // the assembling
 		{
-			Global.Q_Neu(sctr[row]) += f.Q_Neu(row);
+			Sys.GM.Q_Neu(sctr[row]) += f.Q_Neu(row);
 			for (index col = 0; col < size; col++)							
-				Global.K_Neu(sctr[row],sctr[col]) += f.K_Neu(row,col);		// with additional terms **			
+				Sys.GM.K_Neu(sctr[row],sctr[col]) += f.K_Neu(row,col);		// with additional terms **			
 		}
 
 	}
@@ -150,23 +150,16 @@ void impose_Neumann(facetFEM_ptr_vector &NeuBdry, ODE_Solver::GlobalMatrices &Gl
 //	}
 //}
 
-ODE_Solver::ODE_Solver(size_t numOfnds)
+bool ODE_System::integrate(boost::numeric::ublas::vector<temperature>& initials)
 {
-	this->GM = GlobalMatrices(numOfnds);
-	this->parameters.gm = &(this->GM);
-	this->rhs.gm = &this->GM;
-}
-
-bool ODE_Solver::solve(boost::numeric::ublas::vector<temperature>& initials)
-{
-	RHS F();
-
 	using namespace boost::numeric::odeint;
 	
-	integrate_const( runge_kutta4<vector>() , F , initials , this->parameters.time_span.time_span[0] , this->parameters.time_span[1] , this->parameters.time_step, Observer( std::ofstream(this->parameters.output_file) ) ); // for now it outputs into a file only
+	integrate_const( runge_kutta4<vector>() , this->rhs , initials , this->parameters.time_span[0] , this->parameters.time_span[1] , this->parameters.time_step, Observer( std::ofstream(this->parameters.output_file) ) ); // for now it outputs into a file only
+
+	return true;
 }
 
-bool ODE_Solver::InvertMatrix(const matrix& input, matrix& inverse)
+bool ODE_System::InvertMatrix(const matrix& input, boost::numeric::ublas::compressed_matrix<mx_elem>& inverse)
 {
 	typedef boost::numeric::ublas::permutation_matrix<std::size_t> pmatrix;
 
@@ -188,31 +181,4 @@ bool ODE_Solver::InvertMatrix(const matrix& input, matrix& inverse)
 	lu_substitute(A, pm, inverse);
 
 	return true;
-}
-
-ODE_Solver::RHS::RHS()
-{	
-	bool inverted = InvertMatrix(this->gm->C, this->gm->Cinv);
-}
-
-void ODE_Solver::RHS::operator()(vector &T, vector &dTdt, double t)
-{
-	dTdt = prod(Cinv, (-prod(GM->K, T) + GM->Q));
-}
-
-ODE_Solver::GlobalMatrices::GlobalMatrices()
-{
-}
-
-ODE_Solver::GlobalMatrices::GlobalMatrices(size_t NumOfNds)
-{
-	this->NofNds = NumOfNds;
-	this->C(NumOfNds,NumOfNds); this->Cinv(NumOfNds,NumOfNds);
-	this->K(NumOfNds,NumOfNds); this->Q(NumOfNds);	
-	this->K_Dir(NumOfNds,NumOfNds); this->Q_Dir(NumOfNds);
-	this->K_Neu(NumOfNds,NumOfNds); this->Q_Neu(NumOfNds);
-}
-
-ODE_Solver::GlobalMatrices::~GlobalMatrices()
-{
 }
