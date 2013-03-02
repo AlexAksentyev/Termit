@@ -39,8 +39,7 @@ elementFEM::elementFEM(elementMesh_ptr one, index number)
 
 elementFEM::~elementFEM()
 {	
-	this->Facet.clear(); // facetFEMs are created on constuction, the rest of the arrays used in a FEM element are just taken from the mesh
-	// might want to erase the local matrices
+	this->Facet.clear(); // facetFEMs are created on constuction, the rest of the arrays used in a FEM element are just taken from the mesh	
 }
 
 // to be changed according to the preferred form functions
@@ -319,6 +318,24 @@ vector facetFEM::calc_Q_Neu()
 
 	return Q;
 }
+
+//void facetFEM::impose_Neumann(ODE_System &Sys)
+//{
+//	size_t size = this->Node.size();
+//	std::vector<index> sctr = std::vector<index>(size);	// for assembling the current matrices into the global ones		
+//	for(index n = 0; n < size; n++)
+//		sctr[n] = this->Node.at(n)->iGlob;
+//
+//	this->K_Neu = this->calc_K_Neu();
+//	this->Q_Neu = this->calc_Q_Neu();
+//
+//	for (index row = 0; row < size; row++) // the assembling
+//	{
+//		Sys.GM.Q_Neu(sctr[row]) += this->Q_Neu(row);
+//		for (index col = 0; col < size; col++)							
+//			Sys.GM.K_Neu(sctr[row],sctr[col]) += this->K_Neu(row,col);		// with additional terms **			
+//	}
+//}
 
 facetFEM::facetFEM(facet &face) // makes a FEM facet out of a simple mesh facet
 {

@@ -7,6 +7,7 @@
 #include <boost\foreach.hpp>
 #include <boost\ptr_container\ptr_vector.hpp>
 
+
 typedef	double			coordinate;
 typedef double			temperature;
 typedef	std::size_t		index;
@@ -124,8 +125,7 @@ struct facetFEM
 	temperature T_dir, T_amb;
 	double h_conv;
 	
-	sym_matrix calc_K_Neu();
-	vector calc_Q_Neu();
+	//void impose_Neumann(ODE_System&);	
 
 	facetFEM(facet&);
 	facetFEM(facet_ptr);
@@ -139,6 +139,8 @@ private:
 	vector gradn_function_i(coordinate,coordinate,index); // gradient in natural coordinates. grad_xyz = Jacobian^-1 * gardn
 	matrix Jacobian(coordinate,coordinate); // 2D jacobian on the surface of an element
 
+	sym_matrix calc_K_Neu();
+	vector calc_Q_Neu();
 };
 
 class material

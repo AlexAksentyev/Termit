@@ -1,15 +1,18 @@
+
+
 #include <vector>
 #include "FEMObjects.h"
 #include <boost\numeric\ublas\matrix_sparse.hpp>
 #include <fstream>
-#include <boost\function.hpp>
 #include <boost\numeric\odeint.hpp>
 #include <string.h>
+#include <boost\asio.hpp>
+#include <boost\thread.hpp>
 
 
 void FEMCode(std::vector<elementMesh_ptr>); // the base code computing the temperature distribution
 
-void compose_FEM_mesh(std::vector<elementMesh_ptr>&, elementFEM_ptr_vector&, facetFEM_ptr_vector&); // given a collection of mesh elements, produce a FEM mesh
+//void compose_FEM_mesh(std::vector<elementMesh_ptr>&, elementFEM_ptr_vector&, facetFEM_ptr_vector&); // given a collection of mesh elements, produce a FEM mesh
 
 class ODE_System; // the ODE system manager
 
@@ -187,7 +190,38 @@ private:
 	bool InvertMatrix(const matrix& input, boost::numeric::ublas::compressed_matrix<mx_elem>& inverse);
 };
 
-class BC_Imposer // will implement boundary conditions imposition
+class FEM_Model // will implement boundary conditions imposition
 {
 public:
+	elementFEM_ptr_vector			 HexElement;
+	facetFEM_ptr_vector				 Boundary;
+	
+	FEM_Model() {}
+	FEM_Model(std::vector<elementMesh_ptr>&);	
+	~FEM_Model() { HexElement.clear(); Boundary.clear(); }
 };
+
+class Thread_Pool
+{
+public:
+
+	Thread_Pool(size_t);
+	template<class F>
+	void enqueue(F task);
+	~Thread_Pool();
+
+private:
+	boost::asio::io_service							service;
+	boost::asio::io_service::work					work;	
+	std::vector<std::unique_ptr<boost::thread>>		threads;
+
+	class Worker
+	{
+	public:
+		Worker(Thread_Pool &one) : pool(one) {}
+		void operator()();
+	private:
+		Thread_Pool &pool;
+	};
+};
+

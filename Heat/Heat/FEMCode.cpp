@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "FEMObjects.h"
 #include "FEMCode.h"
+#include <boost\bind.hpp>
+#include <boost\ref.hpp>
+#include <crtdbg.h>
 
 
 // #define _SCL_SECURE_NO_WARNINGS ! is defined in properties -> preprocessor definitions
@@ -9,53 +12,57 @@ void FEMCode(std::vector<elementMesh_ptr> elements) // instead of the vector of 
 {	
 	// the following sections should probably be put into separate functions
 
-	// FEM mesh and boundary generation
-	elementFEM_ptr_vector	HexElement(elements.size());
-	facetFEM_ptr_vector		Boundary(6*HexElement.size()); // 6 IS TOO MUCH SPACE !!	
-	compose_FEM_mesh(elements,HexElement,Boundary);
-	elements.~vector(); // destroys the elements of the vector but keeps the referenced mesh model elements untouched for further use
+	// the FEM mesh and boundary generation
+	FEM_Model Model(elements);
+	elements.~vector(); // destroys the elements of the vector but keeps the referenced mesh model elements untouched for further use (i've no right to destroy them)
 	
-	// ODE system obtaining		
+	// the ODE system obtaining		
 	ODE_System System(1000); // the actual number of nodes put here instead of 1000, FINDING WAYS TO AVOID PREALLOCATING IT IS PREFERABLE !!!
-	BOOST_FOREACH(elementFEM element, HexElement)				
-		calc_element_matrices(element, System); // SHOULD PARALLEL IT OUT !!
+	Thread_Pool Pool(boost::thread::hardware_concurrency()-1);
+	BOOST_FOREACH(elementFEM element, Model.HexElement)				
+		Pool.enqueue( boost::bind(calc_element_matrices,boost::ref(element), boost::ref(System)) ); 
+	Pool.~Thread_Pool(); // close the pool
 
 	// the imposition of Neumann boundary conditions
-	impose_Neumann(Boundary, System);
+	impose_Neumann(Model.Boundary, System);
 
-	// ODE system solution
+	// the ODE system solution
 	double step = 1e-3; double span [2] = {0, 10}; std::string filename = std::string("C:\output");
 	System.parameters.Set(step, span, filename);
 
-	boost::numeric::ublas::vector<temperature> Tini = boost::numeric::ublas::vector<temperature>(System.GM.K.size2()); // initializes it with zeros
-	System.integrate(Tini);
-}
-
-void compose_FEM_mesh(std::vector<elementMesh_ptr> &elements, elementFEM_ptr_vector &HexElements, facetFEM_ptr_vector &Boundaries)
-{	
-	elementFEM::NaturalCoordinates_Set = false;
+	typedef boost::numeric::ublas::vector<temperature>								Tvector;
+	Tvector Tini = Tvector(System.GM.K.size2()); // initializes it with zeros
 	
-	index cnt = 0; // may (and should) be calculated **
-	BOOST_FOREACH(elementMesh_ptr elem_ptr, elements){			
-		elementFEM_ptr one = new elementFEM(elem_ptr,cnt);
-		HexElements.push_back(one);
-		BOOST_FOREACH(facetFEM f, one->Facet)
-		{
-			index nind = 0; size_t NofFacetNds = f.Node.size(); size_t NofElts = 1;			
-			while((NofElts == 1) && (nind < NofFacetNds)){
-				NofElts = f.Node.at(nind)->element.size(); // the number of elements that reference a node of a facet
-				nind++;
-			}
+	System.integrate(Tini);	
 
-			if(NofElts == 1) // if all nodes of the facet are referenced by only one element then so is the facet, and hence it's boundary
-				Boundaries.push_back(&f);		
-		}
-		cnt++; // **, for now it's just increment
-	}
-
+	_CrtDumpMemoryLeaks();
 }
 
-void calc_element_matrices(elementFEM &element, ODE_System &Sys)
+//void compose_FEM_mesh(std::vector<elementMesh_ptr> &elements, elementFEM_ptr_vector &HexElements, facetFEM_ptr_vector &Boundaries)
+//{	
+//	elementFEM::NaturalCoordinates_Set = false;
+//	
+//	index cnt = 0; // may (and should) be calculated **
+//	BOOST_FOREACH(elementMesh_ptr elem_ptr, elements){			
+//		elementFEM_ptr one = new elementFEM(elem_ptr,cnt);
+//		HexElements.push_back(one);
+//		BOOST_FOREACH(facetFEM f, one->Facet)
+//		{
+//			index nind = 0; size_t NofFacetNds = f.Node.size(); size_t NofElts = 1;			
+//			while((NofElts == 1) && (nind < NofFacetNds)){
+//				NofElts = f.Node.at(nind)->element.size(); // the number of elements that reference a node of a facet
+//				nind++;
+//			}
+//
+//			if(NofElts == 1) // if all nodes of the facet are referenced by only one element then so is the facet, and hence it's boundary
+//				Boundaries.push_back(&f);		
+//		}
+//		cnt++; // **, for now it's just increment
+//	}
+//
+//}
+
+void calc_element_matrices(elementFEM &element, ODE_System &Sys) 
 {
 	size_t size = element.Node.size();
 	std::vector<index> sctr = std::vector<index>(size);	// for assembling the current matrices into the global ones	
@@ -81,24 +88,9 @@ void impose_Neumann(facetFEM_ptr_vector &NeuBdry, ODE_System &Sys){
 	// the matrices after the imposition are based upon the free ones **
 	Sys.GM.K_Neu = Sys.GM.K; Sys.GM.Q_Neu = Sys.GM.Q;
 	
+	/*Thread_Pool Pool(boost::thread::hardware_concurrency()-1);
 	BOOST_FOREACH(facetFEM f, NeuBdry)
-	{
-		size_t size = f.Node.size();
-		std::vector<index> sctr = std::vector<index>(size);	// for assembling the current matrices into the global ones		
-		for(index n = 0; n < size; n++)
-			sctr[n] = f.Node.at(n)->iGlob;
-
-		f.K_Neu = f.calc_K_Neu();
-		f.Q_Neu = f.calc_Q_Neu();
-
-		for (index row = 0; row < size; row++) // the assembling
-		{
-			Sys.GM.Q_Neu(sctr[row]) += f.Q_Neu(row);
-			for (index col = 0; col < size; col++)							
-				Sys.GM.K_Neu(sctr[row],sctr[col]) += f.K_Neu(row,col);		// with additional terms **			
-		}
-
-	}
+		Pool.enqueue(boost::bind( f.impose_Neumann, Sys ));*/	
 
 }
 
@@ -182,3 +174,49 @@ bool ODE_System::InvertMatrix(const matrix& input, boost::numeric::ublas::compre
 
 	return true;
 }
+
+FEM_Model::FEM_Model(std::vector<elementMesh_ptr>& elements)
+{
+	elementFEM::NaturalCoordinates_Set = false;
+
+	HexElement = elementFEM_ptr_vector(elements.size());
+	// preallocation of Boundary is desirable but i've yet no idea of how many boundary elements there are
+	
+	index cnt = 0; // may (and should) be calculated **
+	BOOST_FOREACH(elementMesh_ptr elem_ptr, elements) // SHOULD BE PARALLELED !!!!
+	{			
+		elementFEM_ptr one = new elementFEM(elem_ptr,cnt);
+		HexElement.push_back(one);
+		BOOST_FOREACH(facetFEM f, one->Facet)
+		{
+			index nind = 0; size_t NofFacetNds = f.Node.size(); size_t NofElts = 1;			
+			while((NofElts == 1) && (nind < NofFacetNds)){
+				NofElts = f.Node.at(nind)->element.size(); // the number of elements that reference a node of a facet
+				nind++;
+			}
+
+			if(NofElts == 1) // if all nodes of the facet are referenced by only one element then so is the facet, and hence it's boundary
+				Boundary.push_back(&f);		
+		}
+		cnt++; // **, for now it's just increment
+	}
+
+}
+
+void Thread_Pool::Worker::operator()() { pool.service.run(); }
+
+Thread_Pool::Thread_Pool(size_t NumOfThrds) : work(service)
+{
+	for(index t = 0; t != NumOfThrds; t++)
+		threads.push_back(std::unique_ptr<boost::thread>(new boost::thread(Worker(*this))));
+}
+
+Thread_Pool::~Thread_Pool()
+{
+	service.stop();
+	for(size_t t = 0; t != threads.size(); t++)
+		threads[t]->join();
+}
+
+template<class F>
+void Thread_Pool::enqueue(F task) { service.post(task); }
