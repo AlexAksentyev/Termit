@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "FEMObjects.h"
 #include "FEMCode.h"
 #include <boost\bind.hpp>
 #include <boost\ref.hpp>
@@ -21,10 +20,11 @@ void FEMCode(std::vector<elementMesh_ptr> elements) // instead of the vector of 
 	Thread_Pool Pool(boost::thread::hardware_concurrency()-1);
 	BOOST_FOREACH(elementFEM element, Model.HexElement)				
 		Pool.enqueue( boost::bind(calc_element_matrices,boost::ref(element), boost::ref(System)) ); 
-	Pool.~Thread_Pool(); // close the pool
-
+	
 	// the imposition of Neumann boundary conditions
-	impose_Neumann(Model.Boundary, System);
+	BOOST_FOREACH(facetFEM f, Model.Boundary)
+		Pool.enqueue( boost::bind(impose_Neumann,boost::ref(f), boost::ref(System)) ); 
+	Pool.~Thread_Pool(); // close the pool
 
 	// the ODE system solution
 	double step = 1e-3; double span [2] = {0, 10}; std::string filename = std::string("C:\output");
@@ -84,13 +84,24 @@ void calc_element_matrices(elementFEM &element, ODE_System &Sys)
 	}
 }
 
-void impose_Neumann(facetFEM_ptr_vector &NeuBdry, ODE_System &Sys){
+void impose_Neumann(facetFEM &face, ODE_System &Sys){
 	// the matrices after the imposition are based upon the free ones **
 	Sys.GM.K_Neu = Sys.GM.K; Sys.GM.Q_Neu = Sys.GM.Q;
 	
-	/*Thread_Pool Pool(boost::thread::hardware_concurrency()-1);
-	BOOST_FOREACH(facetFEM f, NeuBdry)
-		Pool.enqueue(boost::bind( f.impose_Neumann, Sys ));*/	
+	size_t size = face.Node.size();
+	std::vector<index> sctr = std::vector<index>(size);	// for assembling the current matrices into the global ones		
+	for(index n = 0; n < size; n++)
+		sctr[n] = face.Node.at(n)->iGlob;
+
+	face.K_Neu = face.calc_K_Neu();
+	face.Q_Neu = face.calc_Q_Neu();
+
+	for (index row = 0; row < size; row++) // the assembling
+	{
+		Sys.GM.Q_Neu(sctr[row]) += face.Q_Neu(row);
+		for (index col = 0; col < size; col++)							
+			Sys.GM.K_Neu(sctr[row],sctr[col]) += face.K_Neu(row,col);		// with additional terms **			
+	}
 
 }
 
@@ -141,39 +152,6 @@ void impose_Neumann(facetFEM_ptr_vector &NeuBdry, ODE_System &Sys){
 //		}
 //	}
 //}
-
-bool ODE_System::integrate(boost::numeric::ublas::vector<temperature>& initials)
-{
-	using namespace boost::numeric::odeint;
-	
-	integrate_const( runge_kutta4<vector>() , this->rhs , initials , this->parameters.time_span[0] , this->parameters.time_span[1] , this->parameters.time_step, Observer( std::ofstream(this->parameters.output_file) ) ); // for now it outputs into a file only
-
-	return true;
-}
-
-bool ODE_System::InvertMatrix(const matrix& input, boost::numeric::ublas::compressed_matrix<mx_elem>& inverse)
-{
-	typedef boost::numeric::ublas::permutation_matrix<std::size_t> pmatrix;
-
-	// create a working copy of the input
-	matrix A(input);
-
-	// create a permutation matrix for the LU-factorization
-	pmatrix pm(A.size1());
-
-	// perform LU-factorization
-	int res = lu_factorize(A, pm);
-	if (res != 0)
-		return false;
-
-	// create identity matrix of "inverse"
-	inverse.assign(boost::numeric::ublas::identity_matrix<mx_elem> (A.size1()));
-
-	// backsubstitute to get the inverse
-	lu_substitute(A, pm, inverse);
-
-	return true;
-}
 
 FEM_Model::FEM_Model(std::vector<elementMesh_ptr>& elements)
 {

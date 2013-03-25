@@ -87,6 +87,7 @@
     <ClInclude Include="FEMObjects.h" />
     <ClInclude Include="Heat.h" />
     <ClInclude Include="MatrixIntegration.h" />
+    <ClInclude Include="ODE_System.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -96,6 +97,7 @@
     <ClCompile Include="FEMObjects.cpp" />
     <ClCompile Include="Heat.cpp" />
     <ClCompile Include="MatrixIntegration.cpp" />
+    <ClCompile Include="ODE_System.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

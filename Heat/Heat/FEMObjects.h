@@ -1,9 +1,9 @@
 #ifndef FEMOBJECTS_H
 #define FEMOBJECTS_H
 
-#include <vector>
 #include <boost\numeric\ublas\matrix.hpp>
 #include <boost\numeric\ublas\symmetric.hpp>
+#include <boost\numeric\ublas\vector.hpp>
 #include <boost\foreach.hpp>
 #include <boost\ptr_container\ptr_vector.hpp>
 
@@ -125,11 +125,12 @@ struct facetFEM
 	temperature T_dir, T_amb;
 	double h_conv;
 	
-	//void impose_Neumann(ODE_System&);	
-
 	facetFEM(facet&);
 	facetFEM(facet_ptr);
 	~facetFEM();
+
+	sym_matrix calc_K_Neu();
+	vector calc_Q_Neu();
 
 private:
 
@@ -139,8 +140,6 @@ private:
 	vector gradn_function_i(coordinate,coordinate,index); // gradient in natural coordinates. grad_xyz = Jacobian^-1 * gardn
 	matrix Jacobian(coordinate,coordinate); // 2D jacobian on the surface of an element
 
-	sym_matrix calc_K_Neu();
-	vector calc_Q_Neu();
 };
 
 class material
