@@ -30,7 +30,8 @@ public:
 	index iGlob; 
 	elementFEM_ptr_vector element;	// the elements a node belongs to; 8 tops, in any case
 
-private:
+	node(coordinate[], index); // until the mesh is not provided and has to be made in this code, it's public
+	node(std::vector<coordinate>, index);
 	~node();
 };
 
@@ -44,6 +45,9 @@ typedef material*									material_ptr;
 struct facet
 {
 	node_ptr_vector Node; // 4 in the case of 8-nodded hexahedra
+
+	facet(node_ptr_vector);
+	~facet();
 };
 
 typedef facet*										facet_ptr;
@@ -57,8 +61,9 @@ public:
 	node_ptr_vector	Node;	// an array of the nodes of an element, the position of a node in the array is the node's local index in the element
 	facet_ptr_vector Facet; // the facets of an element, not indexed yet
 
-	// no constructor (as of yet) because these are input
-	// no destructor either, because my code is not sanctioned to do do anything other than take data from an external model
+
+	elementMesh(node_ptr_vector, material_ptr); // the constructor (and destructor) is here for the same reason why the node constructor is present
+	~elementMesh(); // and they'll be deleted when unnecessary
 };
 
 typedef elementMesh*								elementMesh_ptr;

@@ -1,117 +1,57 @@
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\HEAT.PCH.CODEANALYSIS
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\HEAT.PCH.CODEANALYSISAST
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\STDAFX.CPP.NATIVECODEANALYSIS.XML
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\STDAFX.OBJ
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\VC110.PDB
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\HEAT.PCH
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\FEMCODE.CPP.NATIVECODEANALYSIS.XML
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\FEMOBJECTS.CPP.NATIVECODEANALYSIS.XML
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\HEAT.CPP.NATIVECODEANALYSIS.XML
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\HEAT.OBJ
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\MATRIXINTEGRATION.CPP.NATIVECODEANALYSIS.XML
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\FEMCODE.OBJ
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\FEMOBJECTS.OBJ
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\MATRIXINTEGRATION.OBJ
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\DEBUG\HEAT.ILK
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\DEBUG\HEAT.EXE
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\DEBUG\HEAT.PDB
-C:\USERS\VAIO\DOCUMENTS\VISUAL STUDIO 2012\PROJECTS\HEAT\HEAT\DEBUG\HEAT.RES
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\FEMCode.obj
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\FEMObjects.obj
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\Heat.obj
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\MatrixIntegration.obj
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\stdafx.obj
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\cl.command.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\CL.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\CL.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link-cvtres.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link-cvtres.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link-rc.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link-rc.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.1584-cvtres.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.1584-cvtres.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.1584-rc.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.1584-rc.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.1584.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.1584.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.2296-cvtres.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.2296-cvtres.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.2296-rc.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.2296-rc.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.2296.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.2296.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.3848-cvtres.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.3848-cvtres.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.3848-rc.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.3848-rc.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.3848.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.3848.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5352-cvtres.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5352-cvtres.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5352-rc.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5352-rc.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5352.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5352.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5924-cvtres.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5924-cvtres.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5924-rc.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5924-rc.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5924.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.5924.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6704-cvtres.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6704-cvtres.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6704-rc.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6704-rc.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6704.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6704.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6784-cvtres.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6784-cvtres.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6784-rc.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6784-rc.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6784.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.6784.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7112-cvtres.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7112-cvtres.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7112-rc.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7112-rc.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7112.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7112.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7468.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7468.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7872.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7872.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7996.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.7996.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.8020.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.8020.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.8584.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.8584.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.9184.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.9184.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.9364-cvtres.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.9364-cvtres.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.9364-rc.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.9364-rc.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.9364.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.9364.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.command.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\link.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\NativeCodeAnalysis.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\rc.command.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\rc.read.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\rc.write.1.tlog
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\Heat.res
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\Heat.pch
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\vc110.idb
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\vc110.pdb
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\FEMCode.cpp.nativecodeanalysis.xml
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\FEMObjects.cpp.nativecodeanalysis.xml
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\Heat.cpp.nativecodeanalysis.xml
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\MatrixIntegration.cpp.nativecodeanalysis.xml
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\stdafx.cpp.nativecodeanalysis.xml
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Heat\Debug\vc.nativecodeanalysis.all.xml
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.pdb
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.exe
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.ilk
-C:\Users\VAIO\documents\visual studio 2012\Projects\Heat\Debug\Heat.exe.lastcodeanalysissucceeded
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\HEAT.PCH.CODEANALYSIS
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\HEAT.PCH.CODEANALYSISAST
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\STDAFX.CPP.NATIVECODEANALYSIS.XML
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\STDAFX.OBJ
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\VC110.PDB
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\ELEMENTMESHPROVIDER.CPP.NATIVECODEANALYSIS.XML
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\ELEMENTMESHPROVIDER.OBJ
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\FEMCODE.CPP.NATIVECODEANALYSIS.XML
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\FEMCODE.OBJ
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\FEMOBJECTS.CPP.NATIVECODEANALYSIS.XML
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\FEMOBJECTS.OBJ
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\HEAT.CPP.NATIVECODEANALYSIS.XML
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\HEAT.OBJ
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\MATRIXINTEGRATION.CPP.NATIVECODEANALYSIS.XML
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\MATRIXINTEGRATION.OBJ
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\ODE_SYSTEM.CPP.NATIVECODEANALYSIS.XML
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\ODE_SYSTEM.OBJ
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\DEBUG\HEAT.ILK
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\DEBUG\HEAT.EXE
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\DEBUG\HEAT.PDB
+C:\USERS\VAIO\DOCUMENTS\GITHUB\TERMIT\HEAT\HEAT\DEBUG\HEAT.RES
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\ElementMeshProvider.obj
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\FEMCode.obj
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\FEMObjects.obj
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\Heat.obj
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\MatrixIntegration.obj
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\ODE_System.obj
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\stdafx.obj
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\cl.command.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\CL.read.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\CL.write.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\link-cvtres.read.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\link-cvtres.write.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\link-rc.read.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\link-rc.write.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\link.command.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\link.read.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\link.write.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\NativeCodeAnalysis.read.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\rc.command.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\rc.read.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\rc.write.1.tlog
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\Heat.res
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\vc110.idb
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\vc110.pdb
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\ElementMeshProvider.cpp.nativecodeanalysis.xml
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\FEMCode.cpp.nativecodeanalysis.xml
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\FEMObjects.cpp.nativecodeanalysis.xml
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\Heat.cpp.nativecodeanalysis.xml
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\MatrixIntegration.cpp.nativecodeanalysis.xml
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\ODE_System.cpp.nativecodeanalysis.xml
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\stdafx.cpp.nativecodeanalysis.xml
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Debug\vc.nativecodeanalysis.all.xml
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.pdb
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.exe
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.ilk
+C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.exe.lastcodeanalysissucceeded

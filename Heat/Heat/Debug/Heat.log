@@ -1,15 +1,27 @@
-﻿Build started 25.03.2013 16:20:05.
-     1>Project "C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Heat.vcxproj" on node 2 (Build target(s)).
+﻿Build started 26.04.2013 16:34:55.
+     1>Project "C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Heat.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\VAIO\CnrDev\odeint-v2\odeint-v2" /ID:\boost\boost_1_52_0 /IC:\Users\VAIO\CnrDev\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt FEMCode.cpp FEMObjects.cpp MatrixIntegration.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\VAIO\DINUS\Termit\odeint-v2\odeint-v2" /ID:\boost\boost_1_52_0 /IC:\Users\VAIO\DINUS\Termit\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\Heat.pch.codeanalysis" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze /analyze:log "Debug\stdafx.cpp.nativecodeanalysis.xml" /errorReport:prompt   /analyze:quiet stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\VAIO\DINUS\Termit\odeint-v2\odeint-v2" /ID:\boost\boost_1_52_0 /IC:\Users\VAIO\DINUS\Termit\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch.codeanalysis" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze /analyze:log "Debug\ElementMeshProvider.cpp.nativecodeanalysis.xml" /errorReport:prompt   /analyze:quiet ElementMeshProvider.cpp
+         ElementMeshProvider.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\VAIO\DINUS\Termit\odeint-v2\odeint-v2" /ID:\boost\boost_1_52_0 /IC:\Users\VAIO\DINUS\Termit\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch.codeanalysis" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze /analyze:log "Debug\FEMCode.cpp.nativecodeanalysis.xml" /errorReport:prompt   /analyze:quiet FEMCode.cpp
          FEMCode.cpp
      1>c:\users\vaio\documents\github\termit\heat\heat\femcode.cpp(30): warning C4129: 'o' : unrecognized character escape sequence
-         Generating Code...
-         Skipping... (no relevant changes detected)
-         MatrixIntegration.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\VAIO\DINUS\Termit\odeint-v2\odeint-v2" /ID:\boost\boost_1_52_0 /IC:\Users\VAIO\DINUS\Termit\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch.codeanalysis" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze /analyze:log "Debug\FEMObjects.cpp.nativecodeanalysis.xml" /errorReport:prompt   /analyze:quiet FEMObjects.cpp
          FEMObjects.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\VAIO\DINUS\Termit\odeint-v2\odeint-v2" /ID:\boost\boost_1_52_0 /IC:\Users\VAIO\DINUS\Termit\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch.codeanalysis" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze /analyze:log "Debug\Heat.cpp.nativecodeanalysis.xml" /errorReport:prompt   /analyze:quiet Heat.cpp
+         Heat.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\VAIO\DINUS\Termit\odeint-v2\odeint-v2" /ID:\boost\boost_1_52_0 /IC:\Users\VAIO\DINUS\Termit\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch.codeanalysis" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze /analyze:log "Debug\MatrixIntegration.cpp.nativecodeanalysis.xml" /errorReport:prompt   /analyze:quiet MatrixIntegration.cpp
+         MatrixIntegration.cpp
+     1>c:\users\vaio\documents\github\termit\heat\heat\matrixintegration.cpp(91): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\Users\VAIO\DINUS\Termit\odeint-v2\odeint-v2" /ID:\boost\boost_1_52_0 /IC:\Users\VAIO\DINUS\Termit\boost_1_52_0\boost_1_52_0 /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D CODE_ANALYSIS /D WIN32 /D _DEBUG /D _WINDOWS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\Heat.pch.codeanalysis" /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze /analyze:log "Debug\ODE_System.cpp.nativecodeanalysis.xml" /errorReport:prompt   /analyze:quiet ODE_System.cpp
+         ODE_System.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.0\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Debug\Heat.res" Heat.rc 
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\VAIO\CnrDev\odeint-v2\odeint-v2\libs" /LIBPATH:D:\boost\boost_1_52_0\stage\lib /LIBPATH:C:\Users\VAIO\CnrDev\boost_1_52_0\boost_1_52_0\stage\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.lib" /MACHINE:X86 Debug\Heat.res
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\VAIO\DINUS\Termit\odeint-v2\odeint-v2\libs" /LIBPATH:D:\boost\boost_1_52_0\stage\lib /LIBPATH:C:\Users\VAIO\DINUS\Termit\boost_1_52_0\boost_1_52_0\stage\lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.lib" /MACHINE:X86 Debug\Heat.res
+         Debug\ElementMeshProvider.obj
          Debug\FEMCode.obj
          Debug\FEMObjects.obj
          Debug\Heat.obj
@@ -17,8 +29,13 @@
          Debug\ODE_System.obj
          Debug\stdafx.obj
          Heat.vcxproj -> C:\Users\VAIO\Documents\GitHub\Termit\Heat\Debug\Heat.exe
-     1>Done Building Project "C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Heat.vcxproj" (Build target(s)).
+     1>timer_queue_set.ipp(53): warning : C6011: Dereferencing NULL pointer 'q'. 
+     1>win_iocp_socket_service_base.ipp(205): warning : C6387: 'Temp_value_#27888' could be '0':  this does not adhere to the specification for the function 'GetProcAddress'. 
+     1>win_iocp_handle_service.ipp(238): warning : C6387: 'Temp_value_#28283' could be '0':  this does not adhere to the specification for the function 'GetProcAddress'. 
+     1>array.hpp(130): warning : C6385: Reading invalid data from 'elems':  the readable size is '140' bytes, but 'i' bytes may be read.
+     1>array.hpp(124): warning : C6385: Reading invalid data from 'elems':  the readable size is '16' bytes, but 'i' bytes may be read.
+     1>Done Building Project "C:\Users\VAIO\Documents\GitHub\Termit\Heat\Heat\Heat.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:16.52
+Time Elapsed 00:03:23.66

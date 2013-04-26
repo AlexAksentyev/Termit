@@ -165,11 +165,14 @@ FEM_Model::FEM_Model(std::vector<elementMesh_ptr>& elements)
 	{			
 		elementFEM_ptr one = new elementFEM(elem_ptr,cnt);
 		HexElement.push_back(one);
-		BOOST_FOREACH(facetFEM f, one->Facet)
+		BOOST_FOREACH(node_ptr n, one->Node) // provide for feedback between the element one and its nodes
+			n->element.push_back(one);
+		BOOST_FOREACH(facetFEM f, one->Facet) // find faces of the element that are on the boundary
 		{
 			index nind = 0; size_t NofFacetNds = f.Node.size(); size_t NofElts = 1;			
-			while((NofElts == 1) && (nind < NofFacetNds)){
-				NofElts = f.Node.at(nind)->element.size(); // the number of elements that reference a node of a facet
+			while((NofElts == 1) && (nind < NofFacetNds))
+			{
+				NofElts = f.Node.at(nind)->element.size(); // the number of elements that reference a node of the facet f
 				nind++;
 			}
 

@@ -7,11 +7,65 @@
 
 
 ///////////////// NODE ////////////////////////
+node::node(coordinate x[], index i)
+{
+	iGlob = i; element = elementFEM_ptr_vector();
+	for(index p = 0; p!= 3; p++)
+		this->x[p] = x[p];
+}
+
+node::node(std::vector<coordinate> x, index i)
+{
+	iGlob = i; element = elementFEM_ptr_vector();
+	for(index p = 0; p!= 3; p++)
+		this->x[p] = x[p];
+}
+
 node::~node()
 {	
 	this->element.clear();
 }
 
+////////////////////////////////////////////////////
+
+///////////////	FACET ////////////////////////////////
+
+facet::facet(node_ptr_vector nodes)
+{
+	Node = nodes;
+}
+
+facet::~facet()
+{
+	this->Node.clear();
+}
+
+////////////////////////////////////////////////////////
+
+///////////////////// ELEMENT_MESH ////////////////////
+
+elementMesh::elementMesh(node_ptr_vector Node, material_ptr Stuff) // it's assumed that elements are hexahedra and nodes are ordered properly ...
+{
+	this->Node = Node; this->Stuff = Stuff;
+
+	// ... and the assumption is to obtain the facet data
+	node_ptr_vector fnodes = node_ptr_vector(4);
+	
+	fnodes[0] = Node[0]; fnodes[1] = Node[1],fnodes[2] = Node[2],fnodes[3] = Node[3];	this->Facet.push_back(new facet(fnodes));
+	fnodes[0] = Node[0]; fnodes[1] = Node[4],fnodes[2] = Node[5],fnodes[3] = Node[1];	this->Facet.push_back(new facet(fnodes));
+	fnodes[0] = Node[0]; fnodes[1] = Node[3],fnodes[2] = Node[7],fnodes[3] = Node[4];	this->Facet.push_back(new facet(fnodes));
+	fnodes[0] = Node[6]; fnodes[1] = Node[5],fnodes[2] = Node[1],fnodes[3] = Node[2];	this->Facet.push_back(new facet(fnodes));
+	fnodes[0] = Node[6]; fnodes[1] = Node[2],fnodes[2] = Node[3],fnodes[3] = Node[7];	this->Facet.push_back(new facet(fnodes));
+	fnodes[0] = Node[6]; fnodes[1] = Node[7],fnodes[2] = Node[4],fnodes[3] = Node[5];	this->Facet.push_back(new facet(fnodes));
+}
+
+elementMesh::~elementMesh()
+{
+	this->Facet.clear(); this->Node.clear(); delete this->Stuff;
+}
+
+
+/////////////////////////////////////////////////////
 
 ///////////////// ELEMENT_FEM //////////////////
 
@@ -363,6 +417,7 @@ facetFEM::~facetFEM()
 
 material::material()
 {
+	Conduct = matrix(3,3);
 }
 
 material::material(material_ptr)
